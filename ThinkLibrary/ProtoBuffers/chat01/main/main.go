@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/golang/protobuf/proto"
-	"think-library/chat01"
+	"think-library/ProtoBuffers/chat01"
 )
 
 func main() {
