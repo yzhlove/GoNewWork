@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package chat02;
+
+message User {
+  uint32 Id = 1;
+  uint32 Tx = 2;
+  uint32 Ax = 3;
+}
