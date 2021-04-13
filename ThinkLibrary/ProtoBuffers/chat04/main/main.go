@@ -21,4 +21,14 @@ func main() {
 	fmt.Println("size => ", len(data))
 	//21612
 
+	stu := &chat04.Stu{}
+
+	for i := 100; i < 10000; i++ {
+		stu.Ids = append(stu.Ids, &chat04.SUI32{Id: int32(i)})
+	}
+
+	stuData, err := proto.Marshal(stu)
+	fmt.Println("size -> ", len(stuData))
+	//51308
+
 }

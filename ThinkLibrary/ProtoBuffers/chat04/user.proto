@@ -5,3 +5,11 @@ package chat04;
 message User {
   repeated sint32 Ids = 1;
 }
+
+message SUI32 {
+  sint32 Id = 1;
+}
+
+message Stu {
+  repeated SUI32 Ids = 1;
+}
