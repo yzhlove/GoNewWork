@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package proto;
+
+service User {
+  rpc Get(UserContext.Req) returns (UserContext.Resp) {}
+}
+
+message UserContext {
+  message Req {
+    uint32 Id = 1;
+  }
+  message Resp {
+    string Res = 2;
+  }
+}
+
