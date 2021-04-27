@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	tracer, closer, err := tracing.NewTrace("frontend-test-jaeger")
+	tracer, closer, err := tracing.NewOpenTrace("frontend-test-jaeger")
 	if err != nil {
 		panic(err)
 	}
