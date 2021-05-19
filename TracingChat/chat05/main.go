@@ -10,6 +10,7 @@ import (
 	"github.com/uber/jaeger-client-go/config"
 	"io"
 	"net/http"
+	"time"
 )
 
 /*
@@ -22,6 +23,26 @@ A -> 	C->		>>G
 
 func main() {
 
+	runServer()
+
+	trace := openTrace("chat05-test-tracing")
+	span := trace.StartSpan("first-main")
+	span.SetTag("start-point", "chat04")
+	defer span.Finish()
+
+	ctx := opentracing.ContextWithSpan(context.Background(), span)
+
+	for _, u := range []string{
+		"http://localhost:1234/A?a=1000",
+		"http://localhost:1234/B?b=2000",
+		"http://localhost:1234/C?c=3000",
+	} {
+		if err := okHttp(ctx, u); err != nil {
+			log.Error(fmt.Errorf("url:%s err:%v", u, err))
+		}
+	}
+
+	time.Sleep(time.Second)
 }
 
 func openTrace(service string) opentracing.Tracer {
@@ -77,11 +98,6 @@ func okHttp(ctx context.Context, url string) error {
 	return nil
 }
 
-func Aservice() context.Context {
-
-	return nil
-}
-
 var traceErr = func(err error) string {
 	return fmt.Sprintf("trace extract error:%s", err)
 }
@@ -101,6 +117,7 @@ func (s *server) serverHttp(w http.ResponseWriter, r *http.Request) {
 	defer span.Finish()
 
 	span.LogFields(log.String("service", r.URL.String()))
+	r.WithContext(opentracing.ContextWithSpan(r.Context(), span))
 }
 
 func (s *server) A(w http.ResponseWriter, r *http.Request) {
@@ -111,9 +128,21 @@ func (s *server) B(w http.ResponseWriter, r *http.Request) {
 	s.serverHttp(w, r)
 }
 
+func (s *server) C(w http.ResponseWriter, r *http.Request) {
+	s.serverHttp(w, r)
+}
+
 func okHttpServer() {
 	s := &server{trace: openTrace("ok-http-server-service")}
 	http.HandleFunc("/A", s.A)
 	http.HandleFunc("/B", s.B)
-	log.Error(http.ListenAndServe(":1234", s))
+	http.HandleFunc("/C", s.C)
+	log.Error(http.ListenAndServe(":1234", nil))
+}
+
+func runServer() {
+	go func() {
+		okHttpServer()
+	}()
+	time.Sleep(time.Second)
 }
