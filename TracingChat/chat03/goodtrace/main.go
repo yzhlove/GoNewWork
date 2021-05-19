@@ -37,10 +37,10 @@ func start() {
 
 	ctx := opentracing.ContextWithSpan(context.Background(), span)
 	var s string
-	s, ctx = formatString(ctx, "gogooogo")
-	s, ctx = formatString(ctx, s)
+	s, _ = formatString(ctx, "gogooogo")
+	s, _ = formatString(ctx, s)
 	printString(ctx, s)
-	s, ctx = formatString(ctx, s)
+	s, _ = formatString(ctx, s)
 	printString(ctx, s)
 }
 
@@ -111,7 +111,7 @@ func formatService() {
 		panic(err)
 	}
 	defer c.Close()
-
+	opentracing.SetGlobalTracer(trace)
 	var count int32
 
 	http.HandleFunc("/format", func(writer http.ResponseWriter, request *http.Request) {
@@ -148,7 +148,7 @@ func printService() {
 		panic(err)
 	}
 	defer c.Close()
-
+	opentracing.SetGlobalTracer(trace)
 	http.HandleFunc("/publish", func(writer http.ResponseWriter, request *http.Request) {
 		ctx, err := trace.Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(request.Header))
 		if err != nil {
