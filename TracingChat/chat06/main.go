@@ -10,6 +10,7 @@ import (
 	"github.com/uber/jaeger-client-go/config"
 	"net/http"
 	"time"
+	"trace-chat/tracing"
 )
 
 func main() {
@@ -19,10 +20,11 @@ func main() {
 	go serverListener(stat)
 	time.Sleep(time.Second)
 
-	trace := openTrace("chat06-test-trace-example")
+	trace, clos, _ := tracing.NewOpenTrace("chat06-test-trace-example")
+	defer clos.Close()
 
 	span := trace.StartSpan("first-span")
-	span.Finish()
+	defer span.Finish()
 
 	ctx := opentracing.ContextWithSpan(context.Background(), span)
 	_ = okHttp(ctx, "http://localhost:1234/stu?event=student")
@@ -50,7 +52,7 @@ func openTrace(service string) opentracing.Tracer {
 func okHttp(ctx context.Context, url string) error {
 
 	span, _ := opentracing.StartSpanFromContext(ctx, "client:"+url)
-	span.Finish()
+	defer span.Finish()
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
@@ -87,11 +89,11 @@ func stuHttpServer(w http.ResponseWriter, r *http.Request) {
 	}
 
 	span := trace.StartSpan("stu-service:"+r.RequestURI, ext.RPCServerOption(ctx))
+	defer span.Finish()
 	span.SetTag("event-service", "student-service")
 	span.LogFields(
 		log.String("service", "stu-http-server"),
 		log.String("url", r.URL.String()))
-	span.Finish()
 
 	newContext := opentracing.ContextWithSpan(context.Background(), span)
 	stuService(newContext, r.FormValue("event"))
@@ -127,13 +129,14 @@ func teachHttpServer(w http.ResponseWriter, r *http.Request) {
 	}
 
 	span := trace.StartSpan("teach-service:"+r.RequestURI, ext.RPCServerOption(ctx))
+	defer span.Finish()
 
 	span.SetTag("event-service", "teacher-service")
 	span.LogFields(
 		log.String("service", "teach-http-server"),
 		log.String("url", r.URL.String()),
 		log.String("event-value", r.FormValue("event")))
-	span.Finish()
+
 }
 
 func serverListener(stat chan struct{}) {
