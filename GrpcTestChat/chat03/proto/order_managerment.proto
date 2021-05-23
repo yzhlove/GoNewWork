@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+import public "const.proto";
+
+package proto;
+
+service OrderManagement {
+  rpc addOrder(Order) returns (StringValue);
+  rpc getOrder(StringValue) returns (Order);
+  rpc searchOrders(StringValue) returns (stream Order);
+  rpc updateOrders(stream Order) returns (StringValue);
+  rpc processOrders(stream StringValue) returns (stream CombinedShipment);
+}
+
+message Order {
+  string id = 1;
+  repeated string items = 2;
+  string description = 3;
+  float price = 4;
+  string destination = 5;
+}
+
+message CombinedShipment {
+  string id = 1;
+  string status = 2;
+  repeated Order orderList = 3;
+}
