@@ -38,6 +38,8 @@ func testInterceptAddedOrder() {
 
 }
 
+
+
 func obtainConn() (proto.OrderManagementClient, io.Closer) {
 	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure(),
 		grpc.WithChainUnaryInterceptor(UnaryClientIntercept),
