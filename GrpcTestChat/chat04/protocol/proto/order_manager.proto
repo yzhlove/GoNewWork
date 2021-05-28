@@ -6,6 +6,10 @@ import  "protocol/common/def.proto";
 
 service OrderManagement{
   rpc addOrder(Order) returns (common.String) ;
+  rpc getOrder(common.String) returns (Order) ;
+  rpc searchOrders(common.String) returns (stream Order) ;
+  rpc updatedOrders(stream Order) returns (common.String) ;
+  rpc processOrders(stream common.String) returns (stream CombinedShipment) ;
 }
 
 message Order {
