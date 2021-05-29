@@ -2,18 +2,20 @@ package main
 
 import (
 	"context"
+	"errors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"grpc-test-chat/chat04/protocol/common"
 	"grpc-test-chat/chat04/protocol/proto"
+	"io"
 	"log"
 	"net"
 	"strings"
 	"time"
 )
 
-const port = "50051"
+const port = ":50051"
 
 func main() {
 
@@ -81,7 +83,23 @@ func (s *server) SearchOrders(tag *common.String, stream proto.OrderManagement_S
 
 func (s *server) UpdatedOrders(stream proto.OrderManagement_UpdatedOrdersServer) error {
 
+	str := strings.Builder{}
 
+	for {
+		order, err := stream.Recv()
+		if err != nil {
+			if errors.Is(err, io.EOF) {
+				return stream.SendAndClose(&common.String{Value: "Orders processed " + str.String()})
+			}
+			log.Printf("Updated Order Error: %v", err)
+			break
+		}
+
+		s.orderMap[order.Id] = *order
+		log.Printf("Updated Order Id: %v Order Message: %v", order.Id, order)
+
+		str.WriteString(order.Id + ",")
+	}
 
 	return nil
 }
