@@ -9,9 +9,9 @@ import (
 
 func main() {
 
-	go pressure.NewHttpServer()
+	//go pressure.NewHttpServer()
 
-	fast := NewHttpFast(pressure.Number, "http://localhost:1234/")
+	fast := NewHttpFast(pressure.Number, "http://192.168.1.16:8080/v1/user/info")
 	fast.Run()
 
 }
@@ -63,7 +63,7 @@ func (fast *HttpFast) exec() {
 		if req, err := http.NewRequest(http.MethodGet, fast.Host, nil); err != nil {
 			log.Print("create request error:", err)
 		} else {
-			if i != 0 && i%100 == 0 {
+			if i != 0 && i%500 == 0 {
 				end := time.Now()
 				log.Print("create http request by:", i, end.Sub(start))
 				start = end

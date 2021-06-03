@@ -2,7 +2,7 @@ package pressure
 
 import "net/http"
 
-const Number = 10000
+const Number = 100000
 
 func NewHttpServer() {
 
@@ -10,5 +10,5 @@ func NewHttpServer() {
 		writer.Write([]byte("Ok."))
 	})
 	http.ListenAndServe(":1234", nil)
-	
+
 }

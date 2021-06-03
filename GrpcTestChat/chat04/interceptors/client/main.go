@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"errors"
 	"google.golang.org/grpc"
+	"grpc-test-chat/chat04/protocol/common"
 	"grpc-test-chat/chat04/protocol/proto"
 	"io"
 	"log"
@@ -38,7 +40,42 @@ func testInterceptAddedOrder() {
 
 }
 
+func testInterceptGetOrder() {
+	client, conn := obtainConn()
+	defer conn.Close()
 
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
+	defer cancel()
+
+	res, err := client.GetOrder(ctx, &common.String{Value: "101"})
+	if err != nil {
+		log.Printf("get order err:%v ", err)
+		return
+	}
+	log.Printf("get order info: %v ", res)
+}
+
+func testInterceptSearchOrder() {
+	client, conn := obtainConn()
+	defer conn.Close()
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
+	defer cancel()
+
+	stream, err := client.SearchOrders(ctx, &common.String{Value: "Google"})
+	if err != nil {
+		log.Printf("search order error: %v ", err)
+		return
+	}
+
+	for {
+		if order, err := stream.Recv(); err != nil {
+			if errors.Is(err, io.EOF) {
+
+			}
+		}
+	}
+}
 
 func obtainConn() (proto.OrderManagementClient, io.Closer) {
 	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure(),
