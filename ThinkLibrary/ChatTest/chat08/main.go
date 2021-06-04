@@ -12,7 +12,7 @@ func main() {
 type spin uint32
 
 func (sp *spin) Lock() {
-	for atomic.CompareAndSwapUint32((*uint32)(sp), 0, 1) {
+	for !atomic.CompareAndSwapUint32((*uint32)(sp), 0, 1) {
 		runtime.Gosched()
 	}
 }
