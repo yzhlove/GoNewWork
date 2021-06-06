@@ -13,13 +13,17 @@ import (
 
 func main() {
 
-	testInterceptAddedOrder()
+	//testInterceptAddedOrder()
+	//testInterceptGetOrder()
+	//testInterceptSearchOrder()
+	//testInterceptUpdatedOrder()
+	testInterceptProcessOrder()
 
 }
 
 func testInterceptAddedOrder() {
 
-	client, conn := obtainConn()
+	client, conn := obtainedConn()
 	defer conn.Close()
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
@@ -41,7 +45,7 @@ func testInterceptAddedOrder() {
 }
 
 func testInterceptGetOrder() {
-	client, conn := obtainConn()
+	client, conn := obtainedConn()
 	defer conn.Close()
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
@@ -56,7 +60,7 @@ func testInterceptGetOrder() {
 }
 
 func testInterceptSearchOrder() {
-	client, conn := obtainConn()
+	client, conn := obtainedConn()
 	defer conn.Close()
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
@@ -71,13 +75,92 @@ func testInterceptSearchOrder() {
 	for {
 		if order, err := stream.Recv(); err != nil {
 			if errors.Is(err, io.EOF) {
-
+				log.Print("search order stream eof")
+				break
 			}
+			log.Fatalf("search order stream error:%v ", err)
+		} else {
+			log.Printf("search order -> %v ", order)
 		}
 	}
 }
 
-func obtainConn() (proto.OrderManagementClient, io.Closer) {
+func testInterceptUpdatedOrder() {
+	client, conn := obtainedConn()
+	defer conn.Close()
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
+	defer cancel()
+
+	order1 := proto.Order{Id: "102", Items: []string{"Google Pixel 3A", "Google Pixel Book"}, Destination: "Mountain View, CA", Price: 1100.00}
+	order2 := proto.Order{Id: "103", Items: []string{"Apple Watch S4", "Mac Book Pro", "iPad Pro"}, Destination: "San Jose, CA", Price: 2800.00}
+	order3 := proto.Order{Id: "104", Items: []string{"Google Home Mini", "Google Nest Hub", "iPad Mini"}, Destination: "Mountain View, CA", Price: 2200.00}
+
+	stream, err := client.UpdatedOrders(ctx)
+	if err != nil {
+		log.Fatalf("stream error:%v", err)
+	}
+
+	for _, order := range []proto.Order{order2, order1, order3} {
+		if err := stream.Send(&order); err != nil {
+			log.Fatalf("send updated order error: %v", err)
+		}
+	}
+
+	if rt, err := stream.CloseAndRecv(); err != nil {
+		if errors.Is(err, io.EOF) {
+			log.Printf("close recv eof")
+			return
+		}
+		log.Printf("close recv error: %v ", err)
+	} else {
+		log.Printf("close recv succeed: %v ", rt.Value)
+	}
+
+}
+
+func testInterceptProcessOrder() {
+
+	client, conn := obtainedConn()
+	defer conn.Close()
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
+	defer cancel()
+
+	stream, err := client.ProcessOrders(ctx)
+	if err != nil {
+		log.Fatalf("proccess stream error: %v", err)
+	}
+
+	go func() {
+		dept, err := stream.Recv()
+		if err != nil {
+			if errors.Is(err, io.EOF) {
+				log.Printf("process order eof")
+				return
+			}
+			log.Printf("process order stream recv error: %v ", err)
+		}
+		log.Printf("stream recv info:%v ", dept)
+	}()
+
+	for k, v := range []string{"102", "102", "103", "101", "105", "106", "102", "103", "101", "105", "106"} {
+		if err := stream.Send(&common.String{Value: v}); err != nil {
+			log.Printf("send error: k: %v err: %v", k, err)
+		}
+	}
+
+	time.Sleep(time.Second)
+
+	if err := stream.CloseSend(); err != nil {
+		log.Fatalf("stream send close error:%v ", err)
+	}
+
+	time.Sleep(time.Second)
+	log.Print("Ok.")
+}
+
+func obtainedConn() (proto.OrderManagementClient, io.Closer) {
 	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure(),
 		grpc.WithChainUnaryInterceptor(UnaryClientIntercept),
 		grpc.WithStreamInterceptor(StreamClientIntercept))

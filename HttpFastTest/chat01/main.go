@@ -4,6 +4,7 @@ import (
 	"http-fast/pressure"
 	"log"
 	"net/http"
+	"sync"
 	"time"
 )
 
@@ -20,9 +21,9 @@ func NewHttpFast(count int, url string) *HttpFast {
 	return &HttpFast{
 		Count:    count,
 		Host:     url,
-		reqChan:  make(chan *ReqTask, 128),
-		bufChan:  make(chan *ReqTask, 256),
-		respChan: make(chan *RespTask, 128),
+		reqChan:  make(chan *ReqTask, 512),
+		bufChan:  make(chan *ReqTask, 1024),
+		respChan: make(chan *RespTask, 2048),
 		stat:     make(chan struct{}),
 	}
 }
@@ -84,16 +85,23 @@ func (fast *HttpFast) deliverTask() {
 func (fast *HttpFast) sendRequest() {
 	defer close(fast.respChan)
 	client := http.Client{Timeout: time.Second * 2}
+	var wg sync.WaitGroup
 	for task := range fast.bufChan {
-		_, err := client.Do(task.Req)
-		fast.respChan <- &RespTask{Id: task.Id, Err: err}
+		wg.Add(1)
+		go func(task *ReqTask) {
+			defer wg.Done()
+			_, err := client.Do(task.Req)
+			fast.respChan <- &RespTask{Id: task.Id, Err: err}
+		}(task)
 	}
+	wg.Wait()
 }
 
 func (fast *HttpFast) show() {
 	var succeed, failed int
 	for resp := range fast.respChan {
 		if err := resp.Err; err != nil {
+			log.Print("error -> ", err)
 			failed++
 		} else {
 			succeed++

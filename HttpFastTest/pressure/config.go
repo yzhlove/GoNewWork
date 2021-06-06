@@ -2,7 +2,7 @@ package pressure
 
 import "net/http"
 
-const Number = 100000
+const Number = 10000
 
 func NewHttpServer() {
 

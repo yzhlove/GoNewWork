@@ -17,6 +17,8 @@ import (
 
 const port = ":50051"
 
+var batchSize = 2
+
 func main() {
 
 	l, err := net.Listen("tcp", port)
@@ -106,7 +108,46 @@ func (s *server) UpdatedOrders(stream proto.OrderManagement_UpdatedOrdersServer)
 
 func (s *server) ProcessOrders(stream proto.OrderManagement_ProcessOrdersServer) error {
 
-	return nil
+	var dept = make(map[string]*proto.CombinedShipment, batchSize)
+	for {
+		orderId, err := stream.Recv()
+		if err != nil {
+			log.Printf("Reading Proc OrderMap:%s ", orderId)
+			if errors.Is(err, io.EOF) {
+				for _, dp := range dept {
+					if err := stream.Send(dp); err != nil {
+						return err
+					}
+				}
+				return nil
+			}
+			log.Printf("recv error:%v ", err)
+			return err
+		}
+
+		order, found := s.orderMap[orderId.Value]
+		destination := "unknown-dest"
+		if found {
+			if order.Destination != "" {
+				destination = order.Destination
+			}
+		}
+
+		if _, found := dept[destination]; !found {
+			dept[destination] = &proto.CombinedShipment{Id: destination, Status: "Ok."}
+		}
+		dept[destination].OrderList = append(dept[destination].OrderList, &order)
+
+		if dp := dept[destination]; len(dp.OrderList) >= batchSize {
+			log.Printf("send dept value:%v ", dp)
+			if err := stream.Send(dp); err != nil {
+				log.Printf("send comb dept data error: %v ", err)
+				return err
+			}
+			delete(dept, destination)
+		}
+
+	}
 }
 
 //UnaryServerIntercept 服务端一元拦截器
