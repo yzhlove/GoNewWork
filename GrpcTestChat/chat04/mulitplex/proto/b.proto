@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package proto;
+
+import "a.proto";
+
+service B {
+  rpc Echo(String) returns (String) ;
+}
