@@ -49,5 +49,6 @@ func (s *server) Echo(ctx context.Context, str *proto.String) (*proto.String, er
 	case <-ctx.Done():
 		log.Printf("context done -> %v ", ctx.Err())
 	}
+	//proto.string -> return nil is panic
 	return &proto.String{}, nil
 }
