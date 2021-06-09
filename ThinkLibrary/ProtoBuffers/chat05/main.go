@@ -16,12 +16,14 @@ func main() {
 	}
 
 	/*
+		user := &User{Name: "yzh", Age: 22, Birthday: "2012-12-28"}
 		{
 			"n": "yzh",
 			"a": 22,
 			"b": "2012-12-28"
 		}
 
+		user := &User{Name: "yzh", Age: 0, Birthday: ""}
 		{
 			"n": "yzh"
 		}

@@ -1,0 +1,7 @@
+struct User {
+    Name     string
+    Age      uint32
+    Birthday string
+}
+
+//gencode go -schema user2.schema -package main
