@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option go_package = "proto";
+
+service Hello {
+  rpc Echo(Empty) returns(String) ;
+  rpc LoopEcho(stream String) returns (stream String) ;
+}
+
+message Empty {}
+
+message String {
+  string str = 1;
+}
