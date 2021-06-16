@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/balancer/roundrobin"
 	"google.golang.org/grpc/resolver"
 	echo "grpc-test-chat/chat04/loadblancing/proto"
 	"log"
@@ -17,7 +18,8 @@ func main() {
 	//pick_first模式，如果第一个addr可用，则只使用第一个addr，如果第一个不可用，则使用下一个。
 	pickFirstConn, err := grpc.Dial(
 		fmt.Sprintf("%s:///%s", "example", "example.com"),
-		grpc.WithBalancerName("pick_first"),
+		//grpc.WithBalancerName("pick_first"),
+		grpc.WithDefaultServiceConfig(fmt.Sprintf(`{"LoadBalancingPolicy": "%s"}`, grpc.PickFirstBalancerName)),
 		grpc.WithInsecure())
 
 	if err != nil {
@@ -31,7 +33,8 @@ func main() {
 
 	randrobinConn, err := grpc.Dial(
 		fmt.Sprintf("%s:///%s", "example", "example.com"),
-		grpc.WithBalancerName("round_robin"),
+		//grpc.WithBalancerName("round_robin"),
+		grpc.WithDefaultServiceConfig(fmt.Sprintf(`{"LoadBalancingPolicy": "%s"}`, roundrobin.Name)),
 		grpc.WithInsecure())
 
 	if err != nil {
