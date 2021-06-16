@@ -52,9 +52,6 @@ func (s *server) Echo(ctx context.Context, _ *proto.Empty) (*proto.String, error
 
 func (s *server) LoopEcho(st proto.Hello_LoopEchoServer) error {
 
-	trailer := metadata.Pairs("time", time.Now().Format(time.RFC3339))
-	st.SetTrailer(trailer)
-
 	header := metadata.New(map[string]string{"local": "loop_echo", "ts": time.Now().Format(time.RFC3339)})
 	st.SendHeader(header)
 
@@ -64,9 +61,18 @@ func (s *server) LoopEcho(st proto.Hello_LoopEchoServer) error {
 				log.Printf("loop echo break for loop.")
 				break
 			}
-			log.Print("echo recv error:", err)
+			log.Fatal("echo recv error:", err)
 		} else {
-			st.Send(&proto.String{Str: strings.ToUpper(str.Str)})
+			header.Append("tcc", "new-time"+time.Now().Format(time.RFC3339))
+			st.SetHeader(header)
+			trailer := metadata.Pairs("kk-tt-time", time.Now().Format(time.RFC3339))
+			st.SetTrailer(trailer)
+			st.SendHeader(header)
+			show(header)
+			show(trailer)
+			log.Println("===========================================")
+			st.Send(&proto.String{Str: "R:" + strings.ToLower(str.Str)})
+
 		}
 	}
 
