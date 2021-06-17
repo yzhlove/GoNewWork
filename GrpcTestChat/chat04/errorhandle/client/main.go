@@ -51,8 +51,8 @@ func main() {
 			log.Printf("unhandler error: %s ", errcode)
 		}
 
+	} else {
+		log.Print("resp -> ", resp.Str)
 	}
-
-	log.Print("resp -> ", resp.Str)
 
 }
