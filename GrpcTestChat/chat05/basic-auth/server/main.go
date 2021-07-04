@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/tls"
 	"encoding/base64"
+	"fmt"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials"
@@ -19,13 +20,13 @@ var (
 	port            = ":50051"
 	errMissMetadata = status.Errorf(codes.InvalidArgument, "miss metadata")
 	errInvalidToken = status.Errorf(codes.Unauthenticated, "invalid credentials")
-	certFile        = ""
-	keyFile         = ""
+	crtFile         = "/Users/yurisa/Develop/GoWork/src/WorkSpace/GoNewWork/GrpcTestChat/chat05/secure-channel/certs/server.crt"
+	keyFile         = "/Users/yurisa/Develop/GoWork/src/WorkSpace/GoNewWork/GrpcTestChat/chat05/secure-channel/certs/server.key"
 )
 
 func main() {
 
-	cert, err := tls.LoadX509KeyPair(certFile, keyFile)
+	cert, err := tls.LoadX509KeyPair(crtFile, keyFile)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -34,7 +35,6 @@ func main() {
 		grpc.Creds(credentials.NewServerTLSFromCert(&cert)),
 		grpc.UnaryInterceptor(checkIntercept),
 	}
-
 	s := grpc.NewServer(opts...)
 	echo.RegisterHelloServer(s, &server{})
 
@@ -46,7 +46,6 @@ func main() {
 	if err := s.Serve(l); err != nil {
 		log.Fatal(err)
 	}
-
 }
 
 type server struct{}
@@ -70,8 +69,14 @@ func checkIntercept(ctx context.Context, req interface{}, _ *grpc.UnaryServerInf
 }
 
 func check(auths []string) bool {
-	if len(auths) > 1 {
+	fmt.Println("auths => ", auths)
+	if len(auths) > 0 {
 		token := strings.TrimPrefix(auths[0], "Basic ")
+		dec, err := base64.StdEncoding.DecodeString(token)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println("decoder ===> ", string(dec))
 		return token == base64.StdEncoding.EncodeToString([]byte("root:root"))
 	}
 	return false
