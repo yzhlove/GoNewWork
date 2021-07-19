@@ -148,7 +148,7 @@ func save(reader io.ReadCloser, name string) error {
 	}
 	defer f.Close()
 
-	buf := make([]byte, 32*024)
+	buf := make([]byte, 32*1024)
 	_, err = io.CopyBuffer(f, reader, buf)
 	return err
 }
