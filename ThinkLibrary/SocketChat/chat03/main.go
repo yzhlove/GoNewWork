@@ -6,7 +6,6 @@ import (
 	"log"
 	"math/rand"
 	"net"
-	"sync"
 	"time"
 )
 
@@ -35,12 +34,10 @@ func server() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	var wg sync.WaitGroup
-	go handle(&wg, conn)
+	go handle(conn)
 }
 
-func handle(wg *sync.WaitGroup, conn *net.UDPConn) {
-	defer wg.Done()
+func handle(conn *net.UDPConn) {
 	data := make([]byte, 1024)
 	for {
 		n, addr, err := conn.ReadFromUDP(data)
