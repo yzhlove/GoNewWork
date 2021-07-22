@@ -9,4 +9,5 @@ require (
 	github.com/golang/protobuf v1.5.2
 	github.com/gomodule/redigo v1.8.4
 	github.com/tinylib/msgp v1.1.5
+	golang.org/x/net v0.0.0-20201021035429-f5854403a974 // indirect
 )
