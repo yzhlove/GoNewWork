@@ -34,6 +34,8 @@ func main() {
 	}
 
 	buf := make([]byte, 1500) //mtu size
+	pack.SetTOS(0x0)
+	pack.SetTTL(16)
 	for {
 		n, cm, src, err := pack.ReadFrom(buf)
 		if err != nil {
@@ -44,7 +46,7 @@ func main() {
 			//检查是不是同一个分组
 			if cm.Dst.Equal(group) {
 				log.Printf("receive data: %s from: {%s}\n", buf[:n], src.String())
-				if n, err := pack.WriteTo([]byte("abcde hello world !!!"), cm, src); err != nil {
+				if n, err := pack.WriteTo([]byte("abcde hello world !!!"), nil, src); err != nil {
 					log.Fatal(err)
 				} else {
 					log.Printf("send {%s} data length: %d \n", src, n)
