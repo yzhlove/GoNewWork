@@ -51,3 +51,18 @@ func Report(address, data string) error {
 	}
 	return errors.New("type assert error")
 }
+
+func Report2(address, data string) error {
+	addr, err := net.ResolveUDPAddr("udp", address)
+	if err != nil {
+		return err
+	}
+
+	cc, err := net.DialUDP("udp", nil, addr)
+	if err != nil {
+		return err
+	}
+	defer cc.Close()
+	_, err = cc.Write([]byte(data))
+	return err
+}
