@@ -20,6 +20,7 @@ func main() {
 	client()
 	log.Println("close client ... ", time.Now().Sub(now).Milliseconds(), "ms")
 	close(stop)
+	time.Sleep(time.Second * 10)
 	log.Println("Ok.")
 }
 
@@ -39,7 +40,7 @@ func client() {
 func send(wg *sync.WaitGroup, addr string) {
 	defer wg.Done()
 	for i := 0; i < 100000; i++ {
-		if err := cnc.Report(addr, encode(addr, i)); err != nil {
+		if err := cnc.Report(addr, encode(i)); err != nil {
 			log.Fatal(err)
 		}
 		//if err := cnc.Report2(addr, encode(addr, i)); err != nil {
@@ -48,8 +49,8 @@ func send(wg *sync.WaitGroup, addr string) {
 	}
 }
 
-func encode(address string, index int) string {
-	s := fmt.Sprintf("%s:%d", address, index)
+func encode(index int) string {
+	s := fmt.Sprintf("%d", index)
 	ss := md5.Sum([]byte(s))
 	return fmt.Sprintf("%s:%x", s, ss)
 }
@@ -77,11 +78,11 @@ OUT:
 		case <-stop:
 			break OUT
 		default:
-			n, remote, err := cc.ReadFromUDP(buf)
+			n, _, err := cc.ReadFromUDP(buf)
 			if err != nil {
 				break OUT
 			}
-			if !check(remote.String(), count, string(buf[:n])) {
+			if !check(count, string(buf[:n])) {
 				failed++
 			}
 			count++
@@ -90,9 +91,9 @@ OUT:
 	log.Printf("[%s] info stat: count [%d] failed [%d] \n", cc.LocalAddr(), count, failed)
 }
 
-func check(remote string, count int, str string) bool {
+func check(count int, str string) bool {
 	s := strings.Split(str, ":")
-	code := md5.Sum([]byte(fmt.Sprintf("%s:%d", remote, count)))
+	code := md5.Sum([]byte(fmt.Sprintf("%d", count)))
 	return s[len(s)-1] == fmt.Sprintf("%x", code)
 }
 
