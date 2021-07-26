@@ -20,8 +20,8 @@ var (
 )
 
 const (
-	certFile = "/Users/yurisa/Develop/GoWork/src/WorkSpace/GoNewWork/GrpcTestChat/chat05/oauth/certs/server.crt"
-	keyFile  = "/Users/yurisa/Develop/GoWork/src/WorkSpace/GoNewWork/GrpcTestChat/chat05/oauth/certs/server.key"
+	certFile = "/Users/yurisa/Develop/GoWork/src/WorkSpace/GoNewWork/GrpcTestChat/chat05/jwtauth/certs/server.crt"
+	keyFile  = "/Users/yurisa/Develop/GoWork/src/WorkSpace/GoNewWork/GrpcTestChat/chat05/jwtauth/certs/server.key"
 )
 
 func main() {
@@ -59,10 +59,6 @@ func ensureToken(ctx context.Context, req interface{}, info *grpc.UnaryServerInf
 	data, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
 		return nil, errMissData
-	}
-
-	if len(data["x-token"]) == 0 {
-		return nil, errToken
 	}
 
 	log.Printf("x-token: %+v \n", data["x-token"])

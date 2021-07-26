@@ -13,21 +13,20 @@ import (
 const (
 	address  = "localhost:50051"
 	hostname = "localhost"
-	certFile = "/Users/yurisa/Develop/GoWork/src/WorkSpace/GoNewWork/GrpcTestChat/chat05/oauth/certs/server.crt"
+	certFile = "/Users/yurisa/Develop/GoWork/src/WorkSpace/GoNewWork/GrpcTestChat/chat05/jwtauth/certs/server.crt"
 	secret   = "*#06#*"
 )
 
 func main() {
 
-	creds, err := credentials.NewClientTLSFromFile(certFile, hostname)
+	basic := Gener("yzh", "123456")
+	cerds, err := credentials.NewClientTLSFromFile(certFile, hostname)
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	basic := Gener("yzh", "123456")
 	opts := []grpc.DialOption{
-		grpc.WithPerRPCCredentials(basic),
-		grpc.WithTransportCredentials(creds),
+		grpc.WithPerRPCCredentials(&basic),
+		grpc.WithTransportCredentials(cerds),
 	}
 
 	conn, err := grpc.Dial(address, opts...)
@@ -38,10 +37,10 @@ func main() {
 
 	cc := echo.NewEchoServiceClient(conn)
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
 
-	resp, err := cc.Echo(ctx, &echo.String{Str: "what are you doing?"})
+	resp, err := cc.Echo(ctx, &echo.String{Str: "hello world"})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -77,8 +76,8 @@ func (b basicCheck) GetRequestMetadata(ctx context.Context, in ...string) (map[s
 	if err != nil {
 		return nil, err
 	}
-
-	return map[string]string{"x-token": token}, nil
+	token = token
+	return map[string]string{"authorization": "Basic abc"}, nil
 }
 
 func (b basicCheck) RequireTransportSecurity() bool {
