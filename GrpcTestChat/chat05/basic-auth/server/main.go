@@ -20,13 +20,13 @@ var (
 	port            = ":50051"
 	errMissMetadata = status.Errorf(codes.InvalidArgument, "miss metadata")
 	errInvalidToken = status.Errorf(codes.Unauthenticated, "invalid credentials")
-	crtFile         = "/Users/yurisa/Develop/GoWork/src/WorkSpace/GoNewWork/GrpcTestChat/chat05/secure-channel/certs/server.crt"
-	keyFile         = "/Users/yurisa/Develop/GoWork/src/WorkSpace/GoNewWork/GrpcTestChat/chat05/secure-channel/certs/server.key"
+	certFile = "/Users/yostar/workSpace/GoNewWork/GrpcTestChat/chat05/jwtauth/certs/server.crt"
+	keyFile  = "/Users/yostar/workSpace/GoNewWork/GrpcTestChat/chat05/jwtauth/certs/server.key"
 )
 
 func main() {
 
-	cert, err := tls.LoadX509KeyPair(crtFile, keyFile)
+	cert, err := tls.LoadX509KeyPair(certFile, keyFile)
 	if err != nil {
 		log.Fatal(err)
 	}

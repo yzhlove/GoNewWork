@@ -11,13 +11,13 @@ import (
 )
 
 var (
-	address = "localhost:50051"
-	crtFile = "/Users/yurisa/Develop/GoWork/src/WorkSpace/GoNewWork/GrpcTestChat/chat05/secure-channel/certs/server.crt"
+	address  = "localhost:50051"
+	certFile = "/Users/yostar/workSpace/GoNewWork/GrpcTestChat/chat05/jwtauth/certs/server.crt"
 )
 
 func main() {
 
-	creds, err := credentials.NewClientTLSFromFile(crtFile, "localhost")
+	creds, err := credentials.NewClientTLSFromFile(certFile, "localhost")
 	if err != nil {
 		log.Fatal(err)
 	}

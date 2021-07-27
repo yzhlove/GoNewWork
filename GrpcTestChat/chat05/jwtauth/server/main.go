@@ -3,12 +3,13 @@ package main
 import (
 	"context"
 	"crypto/tls"
+	"github.com/dgrijalva/jwt-go"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
-	"grpc-test-chat/chat05/oauth/echo"
+	"grpc-test-chat/chat05/jwtauth/echo"
 	"log"
 	"net"
 	"strings"
@@ -20,9 +21,11 @@ var (
 )
 
 const (
-	certFile = "/Users/yurisa/Develop/GoWork/src/WorkSpace/GoNewWork/GrpcTestChat/chat05/jwtauth/certs/server.crt"
-	keyFile  = "/Users/yurisa/Develop/GoWork/src/WorkSpace/GoNewWork/GrpcTestChat/chat05/jwtauth/certs/server.key"
+	certFile = "/Users/yostar/workSpace/GoNewWork/GrpcTestChat/chat05/jwtauth/certs/server.crt"
+	keyFile  = "/Users/yostar/workSpace/GoNewWork/GrpcTestChat/chat05/jwtauth/certs/server.key"
 )
+
+var secret = []byte("*#06#*")
 
 func main() {
 	cert, err := tls.LoadX509KeyPair(certFile, keyFile)
@@ -31,8 +34,8 @@ func main() {
 	}
 
 	opts := []grpc.ServerOption{
-		grpc.UnaryInterceptor(ensureToken),
 		grpc.Creds(credentials.NewServerTLSFromCert(&cert)),
+		grpc.UnaryInterceptor(ensureToken),
 	}
 
 	service := grpc.NewServer(opts...)
@@ -51,7 +54,7 @@ func main() {
 type server struct{}
 
 func (s *server) Echo(ctx context.Context, str *echo.String) (*echo.String, error) {
-	return &echo.String{Str: strings.ToUpper(str.Str)}, nil
+	return &echo.String{Value: strings.ToUpper(str.Value)}, nil
 }
 
 func ensureToken(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handle grpc.UnaryHandler) (interface{}, error) {
@@ -61,7 +64,41 @@ func ensureToken(ctx context.Context, req interface{}, info *grpc.UnaryServerInf
 		return nil, errMissData
 	}
 
-	log.Printf("x-token: %+v \n", data["x-token"])
+	if !check(data["x-token"]) {
+		return nil, errToken
+	}
 
 	return handle(ctx, req)
+}
+
+type agent struct {
+	UserName string
+	Password string
+	*jwt.StandardClaims
+}
+
+func check(strs []string) bool {
+	if len(strs) > 0 {
+		log.Printf("token string slice: %v \n", strs)
+		ant := &agent{}
+		token, err := jwt.ParseWithClaims(strs[0], ant, func(token *jwt.Token) (interface{}, error) {
+			return secret, nil
+		})
+
+		log.Printf("agent: %+v \n", ant)
+
+		if err != nil {
+			log.Printf("token parse error: %v \n", err)
+			return false
+		}
+
+		if err := token.Claims.Valid(); err != nil {
+			log.Printf("token is invalid error: %v \n", err)
+			return false
+		}
+
+		_, ok := token.Claims.(*agent)
+		return ok && token.Valid
+	}
+	return false
 }
