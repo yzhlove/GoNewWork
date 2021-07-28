@@ -5,9 +5,11 @@ import (
 	"context"
 	"io"
 	"log"
+	"math/rand"
 	"net"
 	"os"
 	"os/signal"
+	"strconv"
 	"sync"
 	"sync/atomic"
 	"syscall"
@@ -151,7 +153,7 @@ func (c *EchoClient) Close() error {
 	return nil
 }
 
-func (h *EchoHandler) Handle(ctx context.Context, conn net.Conn) {
+func (h *EchoHandler) Handler(ctx context.Context, conn net.Conn) {
 	if h.closing.Get() {
 		conn.Close()
 	}
@@ -190,5 +192,39 @@ func (h *EchoHandler) Close() error {
 }
 
 func main() {
+	closeCh := make(chan struct{})
+	listener, err := net.Listen("tcp", ":0")
+	if err != nil {
+		log.Fatal(err)
+	}
+	addr := listener.Addr().String()
 
+	go listenerAndServer(listener, MakeEchoHandler(), closeCh)
+
+	conn, err := net.Dial("tcp", addr)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for i := 0; i < 10; i++ {
+		val := strconv.Itoa(rand.Int())
+		conn.Write([]byte(val + "\n"))
+		reader := bufio.NewReader(conn)
+		res, _, err := reader.ReadLine()
+		if err != nil {
+			log.Fatal(err)
+		}
+		if string(res) != val {
+			log.Printf("req and resp no consistent: req %s resp %s \n", val, string(res))
+		}
+	}
+
+	conn.Close()
+
+	for i := 0; i < 5; i++ {
+		net.Dial("tcp", addr)
+	}
+
+	closeCh <- struct{}{}
+	time.Sleep(time.Second)
 }
