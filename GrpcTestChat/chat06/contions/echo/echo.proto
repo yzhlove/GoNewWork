@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package echo ;
+
+import "google/protobuf/any.proto";
+
+service EchoSev {
+
+}
+
+message String {
+  string value = 1;
+}
+
+message RespType {
+  google.protobuf.Any resp = 1;
+}
+

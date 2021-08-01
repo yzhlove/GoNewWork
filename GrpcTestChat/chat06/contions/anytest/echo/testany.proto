@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option go_package = "echo";
+
+package echo ;
+
+import "google/protobuf/any.proto";
+
+service EchoTest {
+  rpc Echo(Req) returns (Resp);
+}
+
+message Req {
+  string name = 1 ;
+}
+
+message User {
+  string name = 1;
+  uint32 age = 2;
+  bytes password = 3;
+}
+
+message Resp {
+  google.protobuf.Any inter = 1;
+}
+
