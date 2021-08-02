@@ -38,6 +38,8 @@ func encodeAnddecode() {
 
 	fmt.Println("newResp -> ", newResp.String())
 
+	fmt.Println("type url ----> ", newResp.Inter.TypeUrl)
+	
 	if err := proto.Unmarshal(newResp.Inter.Value, newUser); err != nil {
 		panic(err)
 	}
