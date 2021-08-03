@@ -7,9 +7,10 @@ import (
 //数据结构:图
 
 func main() {
-	DFS()
-	fmt.Println()
-	callDFS()
+	//DFS()
+	//fmt.Println()
+	//callDFS()
+	ddfs("A")
 }
 
 var vector = []string{"A", "B", "C", "D", "E"}
@@ -68,7 +69,7 @@ func dfs(str string) {
 				fmt.Printf(" (%s,%d) ", vector[i], i)
 				stack = append(stack, i)
 				rept[i]++
-				break¬
+				break
 			}
 		}
 		if i == len(vector) {
@@ -77,6 +78,69 @@ func dfs(str string) {
 	}
 
 }
+
+func ddfs(str string) {
+	x := find(str)
+	stack := make([]int, 0, len(vector))
+	rept := make(map[int]int, len(vector))
+
+	stack = append(stack, x)
+	rept[x]++
+	fmt.Printf(" (%s,%d) ", vector[x], x)
+	var i int
+
+	for len(stack) > 0 {
+		top := stack[len(stack)-1]
+		for i = 0; i < len(vector); i++ {
+			//是否可达
+			if matrix[top][i] == 1 {
+				fmt.Printf(" (%s,%d) ", vector[i], i)
+				rept[i]++
+				//入环点
+				if rept[i] > 1 {
+					panic(fmt.Sprintf("dead lock by (%s,%d) ,count: %d ", vector[i], i, rept[i]))
+				}
+				stack = append(stack, i)
+				break
+			}
+		}
+		if i == len(vector) {
+			stack = stack[:len(stack)-1]
+		}
+	}
+}
+
+func dddfs(str string) {
+	visit := make([][]int , len(vector))
+	for k := range visit {
+		visit[k] = make([]int , len(vector))
+	}
+
+	x := find(str)
+	stack := make([]int, 0, len(vector))
+	rept := make(map[int]int, len(vector))
+
+	//初始化一个节点
+	stack = append(stack, x)
+	rept[x]++
+	var i int
+	fmt.Printf(" (%s,%d) ", str, x)
+
+	for len(stack) > 0 {
+		top := stack[len(stack)  -1]
+		for i = 0;i < len(vector);i++ {
+			//如果有通路
+			if matrix[top][i] == 1 {
+				//如果已经访问，则访问下一个点
+				if visit[top][i] == 1 {
+					continue
+				}
+
+			}
+		}
+	}
+}
+
 
 func find(str string) int {
 	for k, v := range vector {
