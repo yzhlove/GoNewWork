@@ -10,7 +10,8 @@ func main() {
 	//DFS()
 	//fmt.Println()
 	//callDFS()
-	ddfs("A")
+	//ddfs("A")
+	checkDFS("A")
 }
 
 var vector = []string{"A", "B", "C", "D", "E"}
@@ -18,7 +19,7 @@ var matrix = [5][5]int{
 	{0, 1, 1, 1, 0},
 	{0, 0, 1, 0, 1},
 	{0, 0, 0, 0, 1},
-	{0, 0, 1, 0, 0},
+	{0, 0, 0, 0, 0},
 	{0, 0, 0, 1, 0},
 }
 
@@ -110,37 +111,73 @@ func ddfs(str string) {
 	}
 }
 
-func dddfs(str string) {
-	visit := make([][]int , len(vector))
-	for k := range visit {
-		visit[k] = make([]int , len(vector))
+func checkDFS(str string) {
+	type node struct {
+		name    string //节点名
+		inEdge  int    //入度
+		outEdge int    //出度
 	}
 
-	x := find(str)
-	stack := make([]int, 0, len(vector))
-	rept := make(map[int]int, len(vector))
-
-	//初始化一个节点
-	stack = append(stack, x)
-	rept[x]++
-	var i int
-	fmt.Printf(" (%s,%d) ", str, x)
-
-	for len(stack) > 0 {
-		top := stack[len(stack)  -1]
-		for i = 0;i < len(vector);i++ {
-			//如果有通路
-			if matrix[top][i] == 1 {
-				//如果已经访问，则访问下一个点
-				if visit[top][i] == 1 {
-					continue
-				}
-
+	nodes := make([]node, len(vector))
+	for i := 0; i < len(vector); i++ {
+		var in, out int
+		for j := 0; j < len(vector); j++ {
+			if matrix[j][i] == 1 {
+				in++
+			}
+			if matrix[i][j] == 1 {
+				out++
 			}
 		}
+		nodes[i] = node{name: vector[i], inEdge: in, outEdge: out}
 	}
-}
 
+	fmt.Printf("nodes ===> %+v \n", nodes)
+
+	search := func(str string) int {
+		for k, n := range nodes {
+			if n.name == str {
+				return k
+			}
+		}
+		return -1
+	}
+
+	x := search(str)
+	stack := make([]int, 0, len(vector))
+	edge := make(map[int]int, len(vector))
+	visit := make(map[int]struct{}, len(vector))
+
+	stack = append(stack, x)
+	visit[x] = struct{}{}
+	fmt.Printf(" [%s] ", vector[x])
+
+	var i int
+	for len(stack) > 0 {
+		top := stack[len(stack)-1]
+		fmt.Printf("(↓ %s->%d)", vector[top], edge[top])
+		for i = edge[top]; i < len(vector); i++ {
+			if matrix[top][i] == 1 {
+				if _, ok := visit[i]; !ok {
+					edge[top] = i + 1
+					fmt.Printf(" [%s] ", vector[i])
+					stack = append(stack, i)
+					visit[i] = struct{}{}
+					break
+				} else {
+					panic(fmt.Sprintf("[deal lock by (%s,%d)]", vector[i], i))
+				}
+			}
+		}
+		if i == len(vector) {
+			t := stack[len(stack)-1]
+			//fmt.Printf("(↑ %s)", vector[t])
+			stack = stack[:len(stack)-1]
+			delete(visit, t)
+		}
+	}
+
+}
 
 func find(str string) int {
 	for k, v := range vector {
