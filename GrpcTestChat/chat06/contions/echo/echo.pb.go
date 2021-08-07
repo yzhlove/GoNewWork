@@ -9,6 +9,8 @@ import (
 	proto "github.com/golang/protobuf/proto"
 	any "github.com/golang/protobuf/ptypes/any"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -23,102 +25,220 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type String struct {
-	Value                string   `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
+type EchoReq struct {
+	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *String) Reset()         { *m = String{} }
-func (m *String) String() string { return proto.CompactTextString(m) }
-func (*String) ProtoMessage()    {}
-func (*String) Descriptor() ([]byte, []int) {
+func (m *EchoReq) Reset()         { *m = EchoReq{} }
+func (m *EchoReq) String() string { return proto.CompactTextString(m) }
+func (*EchoReq) ProtoMessage()    {}
+func (*EchoReq) Descriptor() ([]byte, []int) {
 	return fileDescriptor_08134aea513e0001, []int{0}
 }
 
-func (m *String) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_String.Unmarshal(m, b)
+func (m *EchoReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EchoReq.Unmarshal(m, b)
 }
-func (m *String) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_String.Marshal(b, m, deterministic)
+func (m *EchoReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EchoReq.Marshal(b, m, deterministic)
 }
-func (m *String) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_String.Merge(m, src)
+func (m *EchoReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EchoReq.Merge(m, src)
 }
-func (m *String) XXX_Size() int {
-	return xxx_messageInfo_String.Size(m)
+func (m *EchoReq) XXX_Size() int {
+	return xxx_messageInfo_EchoReq.Size(m)
 }
-func (m *String) XXX_DiscardUnknown() {
-	xxx_messageInfo_String.DiscardUnknown(m)
+func (m *EchoReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_EchoReq.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_String proto.InternalMessageInfo
+var xxx_messageInfo_EchoReq proto.InternalMessageInfo
 
-func (m *String) GetValue() string {
+func (m *EchoReq) GetName() string {
 	if m != nil {
-		return m.Value
+		return m.Name
 	}
 	return ""
 }
 
-type RespType struct {
-	Resp                 *any.Any `protobuf:"bytes,1,opt,name=resp,proto3" json:"resp,omitempty"`
+type Teacher struct {
+	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Project              string   `protobuf:"bytes,2,opt,name=project,proto3" json:"project,omitempty"`
+	Salary               string   `protobuf:"bytes,3,opt,name=salary,proto3" json:"salary,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RespType) Reset()         { *m = RespType{} }
-func (m *RespType) String() string { return proto.CompactTextString(m) }
-func (*RespType) ProtoMessage()    {}
-func (*RespType) Descriptor() ([]byte, []int) {
+func (m *Teacher) Reset()         { *m = Teacher{} }
+func (m *Teacher) String() string { return proto.CompactTextString(m) }
+func (*Teacher) ProtoMessage()    {}
+func (*Teacher) Descriptor() ([]byte, []int) {
 	return fileDescriptor_08134aea513e0001, []int{1}
 }
 
-func (m *RespType) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_RespType.Unmarshal(m, b)
+func (m *Teacher) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Teacher.Unmarshal(m, b)
 }
-func (m *RespType) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_RespType.Marshal(b, m, deterministic)
+func (m *Teacher) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Teacher.Marshal(b, m, deterministic)
 }
-func (m *RespType) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RespType.Merge(m, src)
+func (m *Teacher) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Teacher.Merge(m, src)
 }
-func (m *RespType) XXX_Size() int {
-	return xxx_messageInfo_RespType.Size(m)
+func (m *Teacher) XXX_Size() int {
+	return xxx_messageInfo_Teacher.Size(m)
 }
-func (m *RespType) XXX_DiscardUnknown() {
-	xxx_messageInfo_RespType.DiscardUnknown(m)
+func (m *Teacher) XXX_DiscardUnknown() {
+	xxx_messageInfo_Teacher.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_RespType proto.InternalMessageInfo
+var xxx_messageInfo_Teacher proto.InternalMessageInfo
 
-func (m *RespType) GetResp() *any.Any {
+func (m *Teacher) GetName() string {
 	if m != nil {
-		return m.Resp
+		return m.Name
+	}
+	return ""
+}
+
+func (m *Teacher) GetProject() string {
+	if m != nil {
+		return m.Project
+	}
+	return ""
+}
+
+func (m *Teacher) GetSalary() string {
+	if m != nil {
+		return m.Salary
+	}
+	return ""
+}
+
+type Student struct {
+	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Class                string   `protobuf:"bytes,2,opt,name=class,proto3" json:"class,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Student) Reset()         { *m = Student{} }
+func (m *Student) String() string { return proto.CompactTextString(m) }
+func (*Student) ProtoMessage()    {}
+func (*Student) Descriptor() ([]byte, []int) {
+	return fileDescriptor_08134aea513e0001, []int{2}
+}
+
+func (m *Student) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Student.Unmarshal(m, b)
+}
+func (m *Student) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Student.Marshal(b, m, deterministic)
+}
+func (m *Student) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Student.Merge(m, src)
+}
+func (m *Student) XXX_Size() int {
+	return xxx_messageInfo_Student.Size(m)
+}
+func (m *Student) XXX_DiscardUnknown() {
+	xxx_messageInfo_Student.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Student proto.InternalMessageInfo
+
+func (m *Student) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *Student) GetClass() string {
+	if m != nil {
+		return m.Class
+	}
+	return ""
+}
+
+type EchoResp struct {
+	Desc                 string   `protobuf:"bytes,1,opt,name=desc,proto3" json:"desc,omitempty"`
+	Character            *any.Any `protobuf:"bytes,2,opt,name=character,proto3" json:"character,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *EchoResp) Reset()         { *m = EchoResp{} }
+func (m *EchoResp) String() string { return proto.CompactTextString(m) }
+func (*EchoResp) ProtoMessage()    {}
+func (*EchoResp) Descriptor() ([]byte, []int) {
+	return fileDescriptor_08134aea513e0001, []int{3}
+}
+
+func (m *EchoResp) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EchoResp.Unmarshal(m, b)
+}
+func (m *EchoResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EchoResp.Marshal(b, m, deterministic)
+}
+func (m *EchoResp) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EchoResp.Merge(m, src)
+}
+func (m *EchoResp) XXX_Size() int {
+	return xxx_messageInfo_EchoResp.Size(m)
+}
+func (m *EchoResp) XXX_DiscardUnknown() {
+	xxx_messageInfo_EchoResp.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_EchoResp proto.InternalMessageInfo
+
+func (m *EchoResp) GetDesc() string {
+	if m != nil {
+		return m.Desc
+	}
+	return ""
+}
+
+func (m *EchoResp) GetCharacter() *any.Any {
+	if m != nil {
+		return m.Character
 	}
 	return nil
 }
 
 func init() {
-	proto.RegisterType((*String)(nil), "echo.String")
-	proto.RegisterType((*RespType)(nil), "echo.RespType")
+	proto.RegisterType((*EchoReq)(nil), "echo.EchoReq")
+	proto.RegisterType((*Teacher)(nil), "echo.Teacher")
+	proto.RegisterType((*Student)(nil), "echo.Student")
+	proto.RegisterType((*EchoResp)(nil), "echo.EchoResp")
 }
 
 func init() { proto.RegisterFile("echo.proto", fileDescriptor_08134aea513e0001) }
 
 var fileDescriptor_08134aea513e0001 = []byte{
-	// 142 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x4a, 0x4d, 0xce, 0xc8,
-	0xd7, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x01, 0xb1, 0xa5, 0x24, 0xd3, 0xf3, 0xf3, 0xd3,
-	0x73, 0x52, 0xf5, 0xc1, 0x62, 0x49, 0xa5, 0x69, 0xfa, 0x89, 0x79, 0x95, 0x10, 0x05, 0x4a, 0x72,
-	0x5c, 0x6c, 0xc1, 0x25, 0x45, 0x99, 0x79, 0xe9, 0x42, 0x22, 0x5c, 0xac, 0x65, 0x89, 0x39, 0xa5,
-	0xa9, 0x12, 0x8c, 0x0a, 0x8c, 0x1a, 0x9c, 0x41, 0x10, 0x8e, 0x92, 0x09, 0x17, 0x47, 0x50, 0x6a,
-	0x71, 0x41, 0x48, 0x65, 0x41, 0xaa, 0x90, 0x06, 0x17, 0x4b, 0x51, 0x6a, 0x71, 0x01, 0x58, 0x01,
-	0xb7, 0x91, 0x88, 0x1e, 0xc4, 0x54, 0x3d, 0x98, 0xa9, 0x7a, 0x8e, 0x79, 0x95, 0x41, 0x60, 0x15,
-	0x46, 0x9c, 0x5c, 0xec, 0xae, 0xc9, 0x19, 0xf9, 0xc1, 0xa9, 0x65, 0x49, 0x6c, 0x60, 0x69, 0x63,
-	0x40, 0x00, 0x00, 0x00, 0xff, 0xff, 0x71, 0x70, 0xe6, 0xd9, 0x96, 0x00, 0x00, 0x00,
+	// 238 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x90, 0xc1, 0x4a, 0xc3, 0x40,
+	0x10, 0x86, 0xa9, 0xc6, 0xc6, 0x4e, 0xd1, 0xc3, 0x50, 0x24, 0x16, 0x04, 0x09, 0x08, 0x9e, 0xb6,
+	0x90, 0xfa, 0x02, 0x1e, 0x3c, 0x0b, 0xa9, 0x2f, 0x30, 0x9d, 0x8e, 0x8d, 0x12, 0xb3, 0xeb, 0xee,
+	0x56, 0xc8, 0xdb, 0xcb, 0xee, 0x26, 0xe8, 0x21, 0xb7, 0xff, 0x9b, 0x99, 0xff, 0x67, 0x66, 0x00,
+	0x84, 0x1b, 0xad, 0x8c, 0xd5, 0x5e, 0x63, 0x16, 0xf4, 0xfa, 0xf6, 0xa8, 0xf5, 0xb1, 0x95, 0x4d,
+	0xac, 0xed, 0x4f, 0xef, 0x1b, 0xea, 0xfa, 0x34, 0x50, 0xde, 0x41, 0xfe, 0xc2, 0x8d, 0xae, 0xe5,
+	0x1b, 0x11, 0xb2, 0x8e, 0xbe, 0xa4, 0x98, 0xdd, 0xcf, 0x1e, 0x17, 0x75, 0xd4, 0xe5, 0x2b, 0xe4,
+	0x6f, 0x42, 0xdc, 0x88, 0x9d, 0x6a, 0x63, 0x01, 0xb9, 0xb1, 0xfa, 0x53, 0xd8, 0x17, 0x67, 0xb1,
+	0x3c, 0x22, 0xde, 0xc0, 0xdc, 0x51, 0x4b, 0xb6, 0x2f, 0xce, 0x63, 0x63, 0xa0, 0x72, 0x0b, 0xf9,
+	0xce, 0x9f, 0x0e, 0xd2, 0xf9, 0xc9, 0xc0, 0x15, 0x5c, 0x70, 0x4b, 0xce, 0x0d, 0x71, 0x09, 0xca,
+	0x1a, 0x2e, 0xd3, 0x92, 0xce, 0x04, 0xd7, 0x41, 0x1c, 0x8f, 0xae, 0xa0, 0xb1, 0x82, 0x05, 0x37,
+	0x64, 0x89, 0xbd, 0xd8, 0xe8, 0x5c, 0x56, 0x2b, 0x95, 0x6e, 0x56, 0xe3, 0xcd, 0xea, 0xb9, 0xeb,
+	0xeb, 0xbf, 0xb1, 0xea, 0x09, 0x96, 0x21, 0x73, 0x27, 0xf6, 0xe7, 0x83, 0x05, 0x1f, 0x20, 0x0b,
+	0x88, 0x57, 0x2a, 0x7e, 0x6f, 0xf8, 0xc9, 0xfa, 0xfa, 0x3f, 0x3a, 0xb3, 0x9f, 0xc7, 0xb8, 0xed,
+	0x6f, 0x00, 0x00, 0x00, 0xff, 0xff, 0xa9, 0xeb, 0x1c, 0xf8, 0x64, 0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -129,36 +249,74 @@ var _ grpc.ClientConn
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion4
 
-// EchoSevClient is the client API for EchoSev service.
+// EchoServiceClient is the client API for EchoService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type EchoSevClient interface {
+type EchoServiceClient interface {
+	Echo(ctx context.Context, in *EchoReq, opts ...grpc.CallOption) (*EchoResp, error)
 }
 
-type echoSevClient struct {
+type echoServiceClient struct {
 	cc *grpc.ClientConn
 }
 
-func NewEchoSevClient(cc *grpc.ClientConn) EchoSevClient {
-	return &echoSevClient{cc}
+func NewEchoServiceClient(cc *grpc.ClientConn) EchoServiceClient {
+	return &echoServiceClient{cc}
 }
 
-// EchoSevServer is the server API for EchoSev service.
-type EchoSevServer interface {
+func (c *echoServiceClient) Echo(ctx context.Context, in *EchoReq, opts ...grpc.CallOption) (*EchoResp, error) {
+	out := new(EchoResp)
+	err := c.cc.Invoke(ctx, "/echo.EchoService/Echo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
-// UnimplementedEchoSevServer can be embedded to have forward compatible implementations.
-type UnimplementedEchoSevServer struct {
+// EchoServiceServer is the server API for EchoService service.
+type EchoServiceServer interface {
+	Echo(context.Context, *EchoReq) (*EchoResp, error)
 }
 
-func RegisterEchoSevServer(s *grpc.Server, srv EchoSevServer) {
-	s.RegisterService(&_EchoSev_serviceDesc, srv)
+// UnimplementedEchoServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedEchoServiceServer struct {
 }
 
-var _EchoSev_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "echo.EchoSev",
-	HandlerType: (*EchoSevServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams:     []grpc.StreamDesc{},
-	Metadata:    "echo.proto",
+func (*UnimplementedEchoServiceServer) Echo(ctx context.Context, req *EchoReq) (*EchoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Echo not implemented")
+}
+
+func RegisterEchoServiceServer(s *grpc.Server, srv EchoServiceServer) {
+	s.RegisterService(&_EchoService_serviceDesc, srv)
+}
+
+func _EchoService_Echo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EchoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EchoServiceServer).Echo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/echo.EchoService/Echo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EchoServiceServer).Echo(ctx, req.(*EchoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _EchoService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "echo.EchoService",
+	HandlerType: (*EchoServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Echo",
+			Handler:    _EchoService_Echo_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "echo.proto",
 }

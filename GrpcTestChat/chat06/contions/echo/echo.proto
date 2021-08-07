@@ -4,15 +4,27 @@ package echo ;
 
 import "google/protobuf/any.proto";
 
-service EchoSev {
-
+service EchoService {
+  rpc Echo(EchoReq) returns (EchoResp) ;
 }
 
-message String {
-  string value = 1;
+
+message EchoReq {
+  string name = 1;
 }
 
-message RespType {
-  google.protobuf.Any resp = 1;
+message Teacher {
+  string name = 1;
+  string project = 2;
+  string salary = 3;
 }
 
+message Student {
+  string name = 1;
+  string class = 2;
+}
+
+message EchoResp {
+  string desc = 1;
+  google.protobuf.Any character = 2;
+}
