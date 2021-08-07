@@ -1,0 +1,36 @@
+syntax = "proto3";
+package echo;
+option go_package = "echo";
+
+import "google/protobuf/any.proto";
+
+
+service HelloService {
+  rpc Echo(Req) returns (Resp);
+}
+
+message Req {
+  string type = 1;
+}
+
+message Student {
+  string name = 1;
+  string address = 2;
+  string subject = 3;
+}
+
+message Teacher {
+  string name = 1;
+  string project = 2;
+  uint32 salary = 3;
+}
+
+message Resp {
+  string desc = 1;
+  google.protobuf.Any character = 2;
+}
+
+
+
+
+
