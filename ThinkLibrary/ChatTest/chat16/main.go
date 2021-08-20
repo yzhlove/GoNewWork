@@ -11,7 +11,10 @@ import (
 )
 
 func main() {
-	if err := zipEncode("RedisTestChat.zip", "/Users/yostar/workSpace/GoNewWork/RedisTestChat"); err != nil {
+	//if err := zipEncode("RedisTestChat.zip", "/Users/yostar/workSpace/GoNewWork/RedisTestChat"); err != nil {
+	//	panic(err)
+	//}
+	if err := zipDecode("/Users/yostar/Desktop", "/Users/yostar/workSpace/GoNewWork/ThinkLibrary/thinkLibrary.zip"); err != nil {
 		panic(err)
 	}
 }
