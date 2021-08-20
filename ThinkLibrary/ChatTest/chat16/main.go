@@ -38,6 +38,8 @@ func zipEncode(dst, src string) error {
 			return errBack
 		}
 
+		fmt.Println("------------> ", fi.Name())
+
 		// 通过文件信息，创建 zip 的文件信息
 		fh, err := zip.FileInfoHeader(fi)
 		if err != nil {
@@ -46,12 +48,12 @@ func zipEncode(dst, src string) error {
 
 		// 替换文件信息中的文件名
 		fh.Name = strings.TrimPrefix(path, string(filepath.Separator))
-		fmt.Println("fh.Name ----> ", fh.Name)
+
 		// 这步开始没有加，会发现解压的时候说它不是个目录
 		if fi.IsDir() {
 			fh.Name += "/"
 		}
-
+		fmt.Println("fh.Name ----> ", fh.Name)
 		// 写入文件信息，并返回一个 Write 结构
 		w, err := zw.CreateHeader(fh)
 		if err != nil {
