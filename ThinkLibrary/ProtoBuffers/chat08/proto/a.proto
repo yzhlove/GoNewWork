@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "proto";
+
+message Item {
+  uint32 id = 1;
+  uint32 qty = 2;
+}
+
+message Items {
+  repeated Item List = 1;
+}
+
+
