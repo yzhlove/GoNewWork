@@ -12,12 +12,13 @@ import (
 )
 
 func main() {
-	if err := encode("abc.zip", "/Users/yostar/workSpace/GoNewWork/ThinkLibrary"); err != nil {
-		panic(err)
-	}
-	//if err := decode("/Users/yostar/Desktop", "/Users/yostar/workSpace/GoNewWork/ThinkLibrary/abc.zip"); err != nil {
+	//if err := encode("abc.zip", "/Users/yostar/workSpace/GoNewWork/ThinkLibrary"); err != nil {
 	//	panic(err)
 	//}
+	if err := decode("/Users/yostar/Desktop", "/Users/yostar/Desktop/Update(2).zip"); err != nil {
+		panic(err)
+	}
+
 }
 
 func encode(dst, src string) error {
@@ -81,20 +82,20 @@ func decode(dst, src string) error {
 		if !file.FileInfo().Mode().IsRegular() {
 			continue
 		}
-
 		if file.FileInfo().Size() == 0 {
 			continue
 		}
-
+		root := filepath.Dir(path)
+		if err := os.MkdirAll(root, 0777); err != nil {
+			return fmt.Errorf("37 %s", err)
+		}
 		if file.FileInfo().IsDir() {
 			if err := os.MkdirAll(path, file.Mode()); err != nil {
 				return fmt.Errorf("3 %s", err)
 			}
 			continue
 		}
-
 		fmt.Printf("file name: %s file perm --> %v file size: %d \n", file.Name, file.Mode().Perm(), file.FileInfo().Size())
-
 		rc, err := file.Open()
 		if err != nil {
 			return fmt.Errorf("4 %s", err)
