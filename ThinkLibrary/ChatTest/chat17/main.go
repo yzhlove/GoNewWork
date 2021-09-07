@@ -2,6 +2,7 @@ package main
 
 import (
 	"archive/zip"
+	"bytes"
 	"crypto/sha256"
 	"fmt"
 	"io"
@@ -15,7 +16,7 @@ func main() {
 	//if err := encode("abc.zip", "/Users/yostar/workSpace/GoNewWork/ThinkLibrary"); err != nil {
 	//	panic(err)
 	//}
-	if err := decode("/Users/yostar/Desktop", "/Users/yostar/Desktop/Update(2).zip"); err != nil {
+	if err := decode("/Users/yostar/Desktop", "/Users/yostar/workSpace/GoNewWork/ThinkLibrary/abc.zip"); err != nil {
 		panic(err)
 	}
 
@@ -27,7 +28,7 @@ func encode(dst, src string) error {
 		return err
 	}
 	zw := zip.NewWriter(f)
-	//buf := new(bytes.Buffer)
+	buf := new(bytes.Buffer)
 
 	if err = filepath.Walk(src, func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
@@ -46,21 +47,21 @@ func encode(dst, src string) error {
 		if err != nil {
 			return err
 		}
-		//hash := checkCode(rf)
-		//buf.WriteString(fmt.Sprintf("file:%s\tcheckCode:%s\n", name, hash))
+		hash := checkCode(rf)
+		buf.WriteString(fmt.Sprintf("file:%s\tcheckCode:%s\n", name, hash))
 		_, err = io.Copy(w, rf)
 		return err
 	}); err != nil {
 		return err
 	}
-	//verify := src + string(os.PathSeparator) + "verify.txt"
-	//w, err := zw.Create(obtained(src, verify))
-	//if err != nil {
-	//	return err
-	//}
-	//if _, err = io.Copy(w, buf); err != nil {
-	//	return err
-	//}
+	verify := src + string(os.PathSeparator) + "verify.txt"
+	w, err := zw.Create(obtained(src, verify))
+	if err != nil {
+		return err
+	}
+	if _, err = io.Copy(w, buf); err != nil {
+		return err
+	}
 	return zw.Close()
 }
 
