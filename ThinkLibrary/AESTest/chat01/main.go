@@ -10,7 +10,7 @@ import (
 )
 
 //AES GCM加密解密
-//secret 必须是16位或者32位 16:aes-128 32:aes-256
+//key 必须是16位或者32位 16:aes-128 32:aes-256
 
 func main() {
 
