@@ -24,6 +24,8 @@ github.com/dontpanic92/wxGo v0.0.0-20181107055819-fbf544604121 h1:b5gWiiOZMFnPe5
 github.com/dontpanic92/wxGo v0.0.0-20181107055819-fbf544604121/go.mod h1:EUkxdIXt9yQ4TpZAOo4/QUejLdNoBowesftSfMSw/2o=
 github.com/dtylman/gowd v0.0.0-20190619113956-15e38debca22 h1:I5wRxykD/R4FPvtQFp7gbUsyrXtce0kP7bdwUqMdB7o=
 github.com/dtylman/gowd v0.0.0-20190619113956-15e38debca22/go.mod h1:T/7YDKFGgJHhcb2Gx4Us390n234TkOaID9Zzdf/Noes=
+github.com/flopp/go-findfont v0.0.0-20210823125129-5637e70e133f h1:WIZWCW/44n2tK78JzllkM1iNxRqJv8C/X+DGv3jb8L8=
+github.com/flopp/go-findfont v0.0.0-20210823125129-5637e70e133f/go.mod h1:wKKxRDjD024Rh7VMwoU90i6ikQRCr+JTHB5n4Ejkqvw=
 github.com/fredbi/uri v0.0.0-20181227131451-3dcfdacbaaf3 h1:FDqhDm7pcsLhhWl1QtD8vlzI4mm59llRvNzrFg6/LAA=
 github.com/fredbi/uri v0.0.0-20181227131451-3dcfdacbaaf3/go.mod h1:CzM2G82Q9BDUvMTGHnXf/6OExw/Dz2ivDj48nVg7Lg8=
 github.com/fsnotify/fsnotify v1.4.9 h1:hsms1Qyu0jgnwNXIxa+/V/PDsU6CfLf6CNO8H7IWoS4=

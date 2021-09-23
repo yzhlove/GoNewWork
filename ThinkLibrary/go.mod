@@ -11,6 +11,7 @@ require (
 	github.com/chromedp/chromedp v0.7.4
 	github.com/dontpanic92/wxGo v0.0.0-20181107055819-fbf544604121
 	github.com/dtylman/gowd v0.0.0-20190619113956-15e38debca22
+	github.com/flopp/go-findfont v0.0.0-20210823125129-5637e70e133f
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/mock v1.6.0
 	github.com/golang/protobuf v1.5.2
