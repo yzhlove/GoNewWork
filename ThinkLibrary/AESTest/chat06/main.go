@@ -4,6 +4,7 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
+	"github.com/aead/chacha20poly1305"
 	"io"
 	"log"
 )
@@ -12,7 +13,8 @@ func main() {
 
 	key := []byte("*#06#-*#06#-*#06#-*#06#-*#06#-*#")
 
-	a, err := New(key)
+	//a, err := NewAes(key)
+	a, err := NewChacha20(key)
 	if err != nil {
 		panic(err)
 	}
@@ -36,7 +38,7 @@ type Aes struct {
 	aead cipher.AEAD
 }
 
-func New(key []byte) (*Aes, error) {
+func NewAes(key []byte) (*Aes, error) {
 	b, err := aes.NewCipher(key)
 	if err != nil {
 		return nil, err
@@ -46,6 +48,14 @@ func New(key []byte) (*Aes, error) {
 		return nil, err
 	}
 	return &Aes{key: key, aead: c}, nil
+}
+
+func NewChacha20(key []byte) (*Aes, error) {
+	aead, err := chacha20poly1305.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
+	return &Aes{key: key, aead: aead}, nil
 }
 
 func (a *Aes) Encode(text []byte) ([]byte, error) {
