@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package proto;
+
+message PROTO_A {
+  string Number1 = 1;
+  float Number2 = 2;
+  double Number3 = 3;
+}
+
