@@ -3,11 +3,11 @@ package carrier
 import (
 	"fmt"
 	"gitlab.gmgate.net/fuyuan/thor/log"
-	"gitlab.gmgate.net/nova/game/app/carrier/change"
-	"gitlab.gmgate.net/nova/game/app/carrier/source"
 	"go.uber.org/zap"
 	"reflect"
 	"testing"
+	"think-library/AESTest/chat_carrier/carrier/change"
+	"think-library/AESTest/chat_carrier/carrier/source"
 )
 
 func Test_Metadata(t *testing.T) {

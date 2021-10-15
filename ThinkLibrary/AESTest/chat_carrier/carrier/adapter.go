@@ -2,9 +2,9 @@ package carrier
 
 import (
 	"encoding/json"
-	"ThinkLirary/carrier/change"
-	"gitlab.gmgate.net/nova/game/app/carrier/source"
 	"go.uber.org/zap/zapcore"
+	"think-library/AESTest/chat_carrier/carrier/change"
+	"think-library/AESTest/chat_carrier/carrier/source"
 )
 
 type Adapter struct {
@@ -30,9 +30,6 @@ type aptArr []Adapter
 
 func (apt aptArr) MarshalLogArray(arr zapcore.ArrayEncoder) error {
 	for k := range apt {
-		apt[k].Source.BInd() == Node{
-			continue
-		}
 		if err := arr.AppendObject(apt[k]); err != nil {
 			return err
 		}

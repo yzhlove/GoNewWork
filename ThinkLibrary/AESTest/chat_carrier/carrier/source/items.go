@@ -10,10 +10,6 @@ func (it *Items) bind() int {
 	return int(srcItems)
 }
 
-func (it Items) Equal(src Items) bool {
-	if it.
-}
-
 func (it *Items) Encode() ([]byte, error) {
 	it.Src = it.bind()
 	return json.Marshal(it)
