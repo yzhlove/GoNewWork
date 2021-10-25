@@ -1,8 +1,6 @@
 package context
 
 import (
-	"gitlab.gmgate.net/fuyuan/thor/log"
-	"go.uber.org/zap"
 	"testing"
 )
 
@@ -19,9 +17,5 @@ func Test_Metadata(t *testing.T) {
 	//mails := &Mails{}
 	//metadata.With(src, mails)
 	metadata.With(src, items)
-
-	for _, k := range metadata {
-		log.Info("metadata info => ", zap.Object("meta", k))
-	}
 
 }
