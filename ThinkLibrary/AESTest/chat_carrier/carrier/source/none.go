@@ -6,8 +6,9 @@ type None struct {
 	base
 }
 
-func (n *None) bind() {
+func (n *None) bind() int {
 	n.Src = int(srcNone)
+	return int(srcNone)
 }
 
 func (n None) Encode() ([]byte, error) {

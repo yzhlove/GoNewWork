@@ -5,7 +5,7 @@ import (
 )
 
 type SrcInterface interface {
-	bind()
+	bind() int
 	Encode() ([]byte, error)
 }
 
