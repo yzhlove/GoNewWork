@@ -21,8 +21,6 @@ func (p *Pack) GetByteOrder() binary.ByteOrder {
 	return binary.LittleEndian
 }
 
-func (p *Pack)
-
 type Unpack struct {
 	ID   uint16
 	Data []byte
