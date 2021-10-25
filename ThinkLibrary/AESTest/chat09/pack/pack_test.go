@@ -17,11 +17,11 @@ func Test_Pack(t *testing.T) {
 	}
 
 	// 前四个字节是为了防止Tcp粘包而填入的消息头大小
-	pk := Packet(data[4:])
-	t.Log("msgId:", pk.Id())
+	tbl := Packet(data[4:])
+	t.Log("msgId:", tbl.Id())
 
 	auth2 := &pb.Auth{}
-	if err := pk.Unpack(auth2); err != nil {
+	if err := tbl.Unpack(auth2); err != nil {
 		t.Error(err)
 		return
 	}
