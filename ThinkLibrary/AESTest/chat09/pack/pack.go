@@ -17,8 +17,7 @@ type Msg interface {
 }
 
 func Pack(msgID uint16, msg Msg) ([]byte, error) {
-	x := make([]byte, packSize+msgSize+msg.Size())
-	buf := bytes.NewBuffer(x)
+	buf := bytes.NewBuffer([]byte{})
 
 	if err := binary.Write(buf, binary.LittleEndian, uint32(msgSize+msg.Size())); err != nil {
 		return nil, err
@@ -28,4 +27,31 @@ func Pack(msgID uint16, msg Msg) ([]byte, error) {
 		return nil, err
 	}
 
+	data, err := msg.Marshal()
+	if err != nil {
+		return nil, err
+	}
+
+	if err := binary.Write(buf, binary.LittleEndian, data); err != nil {
+		return nil, err
+	}
+
+	return buf.Bytes(), nil
+}
+
+type Packet []byte
+
+func (p Packet) Id() uint16 {
+	return binary.LittleEndian.Uint16(p)
+}
+
+func (p Packet) Unpack(msg Msg) error {
+	var data = make([]byte, len(p)-msgSize)
+	buf := bytes.NewReader(p[msgSize:])
+
+	if err := binary.Read(buf, binary.LittleEndian, &data); err != nil {
+		return err
+	}
+
+	return msg.Unmarshal(data)
 }

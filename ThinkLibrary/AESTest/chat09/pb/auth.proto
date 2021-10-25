@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "pb";
+
+message Auth {
+  string Msg = 1;
+  bytes PubKey = 2;
+}
