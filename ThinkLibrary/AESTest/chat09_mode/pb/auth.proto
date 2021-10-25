@@ -8,3 +8,7 @@ message Auth {
   string Msg = 1;
   bytes PubKey = 2;
 }
+
+message Error {
+  string error = 1;
+}

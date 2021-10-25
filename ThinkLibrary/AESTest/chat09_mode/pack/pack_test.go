@@ -1,6 +1,8 @@
 package pack
 
 import (
+	"bytes"
+	"encoding/binary"
 	"testing"
 	"think-library/AESTest/chat09_mode/pb"
 )
@@ -27,5 +29,27 @@ func Test_Pack(t *testing.T) {
 	}
 
 	t.Log("msg:", auth2)
+
+}
+
+func Test_Parse(t *testing.T) {
+
+	data := []byte("hello world")
+
+	buf := bytes.NewBuffer([]byte{})
+	if err := binary.Write(buf, binary.LittleEndian, data); err != nil {
+		t.Error(err)
+		return
+	}
+
+	t.Log("buf => ", string(buf.Bytes()))
+
+	decode := make([]byte, buf.Len())
+	if err := binary.Read(buf, binary.LittleEndian, &decode); err != nil {
+		t.Error(err)
+		return
+	}
+
+	t.Log("decode string => ", string(decode))
 
 }
