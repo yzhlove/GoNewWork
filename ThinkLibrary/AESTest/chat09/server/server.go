@@ -5,6 +5,7 @@ import (
 	"net"
 	"os"
 	"sync"
+	"think-library/AESTest/chat09/pack"
 )
 
 type handlefunc func(conn net.Conn, s *server)
@@ -56,7 +57,7 @@ func (s *server) run() {
 			break
 		}
 		s.Add(1)
-		s.hfunc(conn, s)
+		go s.hfunc(conn, s)
 	}
 	s.Wait()
 
@@ -65,6 +66,19 @@ func (s *server) run() {
 
 func handler(conn net.Conn, s *server) {
 	defer s.Done()
+
+	parse := pack.Parser{Conn: conn}
+
+	for {
+		p, ok := parse.Next()
+		if !ok {
+			s.errCh <- parse.Err()
+			return
+		}
+
+		// 解析消息
+
+	}
 
 }
 
