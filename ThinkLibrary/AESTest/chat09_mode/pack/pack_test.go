@@ -2,7 +2,7 @@ package pack
 
 import (
 	"testing"
-	"think-library/AESTest/chat09/pb"
+	"think-library/AESTest/chat09_mode/pb"
 )
 
 func Test_Pack(t *testing.T) {

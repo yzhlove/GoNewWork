@@ -5,7 +5,7 @@ import (
 	"net"
 	"os"
 	"sync"
-	"think-library/AESTest/chat09/pack"
+	"think-library/AESTest/chat09_mode/pack"
 )
 
 type handlefunc func(conn net.Conn, s *server)
@@ -75,7 +75,7 @@ func handler(conn net.Conn, s *server) {
 			s.errCh <- parse.Err()
 			return
 		}
-
+		p = p
 		// 解析消息
 
 	}
