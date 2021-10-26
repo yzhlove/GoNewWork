@@ -16,19 +16,37 @@ type Msg interface {
 	Unmarshal([]byte) error
 }
 
-func Pack(msgID uint16, msg Msg) ([]byte, error) {
+//func Pack(msgID uint16, msg Msg) ([]byte, error) {
+//	buf := bytes.NewBuffer([]byte{})
+//
+//	if err := binary.Write(buf, binary.LittleEndian, uint32(msgSize+msg.Size())); err != nil {
+//		return nil, err
+//	}
+//
+//	if err := binary.Write(buf, binary.LittleEndian, msgID); err != nil {
+//		return nil, err
+//	}
+//
+//	data, err := msg.Marshal()
+//	if err != nil {
+//		return nil, err
+//	}
+//
+//	if err := binary.Write(buf, binary.LittleEndian, data); err != nil {
+//		return nil, err
+//	}
+//
+//	return buf.Bytes(), nil
+//}
+
+func Pack(msgID uint16, data []byte) ([]byte, error) {
 	buf := bytes.NewBuffer([]byte{})
 
-	if err := binary.Write(buf, binary.LittleEndian, uint32(msgSize+msg.Size())); err != nil {
+	if err := binary.Write(buf, binary.LittleEndian, uint32(msgSize+len(data))); err != nil {
 		return nil, err
 	}
 
 	if err := binary.Write(buf, binary.LittleEndian, msgID); err != nil {
-		return nil, err
-	}
-
-	data, err := msg.Marshal()
-	if err != nil {
 		return nil, err
 	}
 

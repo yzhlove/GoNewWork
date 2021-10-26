@@ -12,7 +12,13 @@ func Test_Pack(t *testing.T) {
 	var msgId uint16 = 1000
 	auth := &pb.Auth{Msg: "dh algorithm", PubKey: []byte("Public Key")}
 
-	data, err := Pack(msgId, auth)
+	data, err := auth.Marshal()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	data, err = Pack(msgId, data)
 	if err != nil {
 		t.Error(err)
 		return

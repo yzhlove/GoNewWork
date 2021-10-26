@@ -6,6 +6,7 @@ import (
 	"think-library/AESTest/chat09_mode/conf"
 	"think-library/AESTest/chat09_mode/dh"
 	"think-library/AESTest/chat09_mode/pack"
+	"think-library/AESTest/chat09_mode/pb"
 	"think-library/AESTest/chat09_mode/secret"
 )
 
@@ -59,14 +60,23 @@ func (c *Context) send(data []byte) error {
 
 func (c *Context) failed(err error) []byte {
 	c.Fail = true
-	//data, err := pack.Pack(conf.SystemError, &pb.ErrorResp{Error: err.Error()})
-	//if err != nil {
-	//	toErr("pack", err)
-	//}
 
-	//data, err := c.Crt.Encode(data)
+	tbl := &pb.ErrorResp{Error: err.Error()}
 
-	return nil
+	data, err := tbl.Marshal()
+	if err != nil {
+		toErr("Marshal", err)
+	}
+
+	if data, err = c.Crt.Encode(data); err != nil {
+		toErr("Encode", err)
+	}
+
+	if data, err = pack.Pack(conf.SystemError, data); err != nil {
+		toErr("Pack", err)
+	}
+
+	return data
 }
 
 func (c *Context) succeed(msgID uint16, msg pack.Msg) []byte {

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log"
 	"net"
 	"think-library/AESTest/chat09_mode/conf"
 )
@@ -20,6 +21,8 @@ func main() {
 	if err != nil {
 		toErr("ListenTCP", err)
 	}
+
+	log.Println("listener to port:", conf.HostName)
 
 	for {
 		conn, err := listener.Accept()

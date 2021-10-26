@@ -18,3 +18,8 @@ message NotFoundResp {
   string Msg = 1;
 }
 
+message Letter {
+  string Recipient = 1;
+  string Sender = 2;
+  bytes Content = 3;
+}

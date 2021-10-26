@@ -5,9 +5,11 @@ const (
 )
 
 const (
-	SystemAuth        = 1001
-	SystemAuthSucceed = 100101
-	SystemError       = 5
+	SystemAuth     = 1001
+	SystemError    = 5
+	SystemNotFound = 6
+
+	UserLetter = 1002
 )
 
 var (
