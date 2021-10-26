@@ -2,11 +2,12 @@ package secret
 
 import (
 	"testing"
+	"think-library/AESTest/chat09_mode/conf"
 )
 
 func Test_Aes(t *testing.T) {
 
-	a, err := NewAes(key)
+	a, err := NewAes(conf.DefineKey)
 	if err != nil {
 		t.Error(err)
 		return

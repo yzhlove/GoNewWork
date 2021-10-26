@@ -9,6 +9,12 @@ message Auth {
   bytes PubKey = 2;
 }
 
-message Error {
-  string error = 1;
+message ErrorResp {
+  string Error = 1;
+  bytes Ext = 2;
 }
+
+message NotFoundResp {
+  string Msg = 1;
+}
+

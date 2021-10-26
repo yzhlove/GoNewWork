@@ -7,8 +7,6 @@ import (
 	"io"
 )
 
-var key = []byte("04380438043804380438043804380438")
-
 type EncoderDecoder interface {
 	Encode([]byte) ([]byte, error)
 	Decode([]byte) ([]byte, error)

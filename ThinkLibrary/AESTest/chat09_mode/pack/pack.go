@@ -3,7 +3,6 @@ package pack
 import (
 	"bytes"
 	"encoding/binary"
-	"io"
 )
 
 const (
@@ -55,33 +54,4 @@ func (p Packet) Unpack(msg Msg) error {
 	}
 
 	return msg.Unmarshal(data)
-}
-
-type Parser struct {
-	Conn io.ReadWriter
-	err  error
-}
-
-func NewParser(conn io.ReadWriter) *Parser {
-	return &Parser{Conn: conn}
-}
-
-func (p *Parser) Err() error {
-	return p.err
-}
-
-func (p *Parser) Next() (Packet, bool) {
-	var size uint32
-	if err := binary.Read(p.Conn, binary.LittleEndian, &size); err != nil {
-		p.err = err
-		return nil, false
-	}
-
-	data := make([]byte, size)
-	if err := binary.Read(p.Conn, binary.LittleEndian, &data); err != nil {
-		p.err = err
-		return nil, false
-	}
-	p.err = nil
-	return data, true
 }

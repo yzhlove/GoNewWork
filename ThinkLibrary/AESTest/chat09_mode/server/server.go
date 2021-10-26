@@ -1,73 +1,92 @@
 package main
 
 import (
-	"log"
+	"encoding/binary"
+	"errors"
+	"fmt"
+	"io"
 	"net"
-	"os"
-	"sync"
+	"think-library/AESTest/chat09_mode/conf"
 )
-
-type handlefunc func(conn net.Conn, s *server)
-
-type server struct {
-	address  string
-	listener net.Listener
-	sync.WaitGroup
-	hfunc  handlefunc
-	errCh  chan error
-	stopCh chan struct{}
-}
-
-func newServer(address string, hfunc handlefunc) *server {
-	s := &server{address: address, hfunc: hfunc}
-	s.errCh = make(chan error, 1)
-	s.stopCh = make(chan struct{})
-	return s
-}
-
-func (s *server) start() error {
-	tcpAddr, err := net.ResolveTCPAddr("tcp4", s.address)
-	if err != nil {
-		return err
-	}
-	l, err := net.ListenTCP("tcp", tcpAddr)
-	if err != nil {
-		return err
-	}
-	s.listener = l
-	return nil
-}
-
-func (s *server) stop() {
-	<-s.stopCh
-	os.Exit(0)
-}
-
-func (s *server) run() {
-	go func() {
-		for err := range s.errCh {
-			log.Println("handle func error:", err)
-		}
-	}()
-	for {
-		conn, err := s.listener.Accept()
-		if err != nil {
-			log.Println("accept error:", err)
-			break
-		}
-		s.Add(1)
-		go s.hfunc(conn, s)
-	}
-	s.Wait()
-
-	s.stopCh <- struct{}{}
-}
-
-func handler(conn net.Conn, s *server) {
-	defer s.Done()
-
-}
 
 func main() {
 
+	tcpAddr, err := net.ResolveTCPAddr("tcp4", conf.HostName)
+	if err != nil {
+		toErr("ResolveTCPAddr", err)
+	}
+
+	listener, err := net.ListenTCP("tcp", tcpAddr)
+	if err != nil {
+		toErr("ListenTCP", err)
+	}
+
+	for {
+		conn, err := listener.Accept()
+		if err != nil {
+			toErr("Accept", err)
+		}
+		go handler(conn)
+	}
+
+}
+
+func handler(conn net.Conn) {
+	defer conn.Close()
+
+	ctx := NewContext()
+
+	go func() {
+		for msg := range ctx.msgCh {
+			if _, err := conn.Write(msg); err != nil {
+				toErr("Write", err)
+			}
+		}
+	}()
+
+	p := parser{conn: conn}
+	for {
+		data, err := p.read()
+		if err != nil {
+			toErr("parser", err)
+		}
+		req := ctx.req(data)
+		if req != nil {
+			handle := Get(req.Id())
+			if err := ctx.send(handle(ctx, req)); err != nil {
+				toErr("send", err)
+			}
+		}
+	}
+
+}
+
+type parser struct {
+	conn net.Conn
+}
+
+func (p *parser) read() ([]byte, error) {
+	var size uint32
+	if err := binary.Read(p.conn, binary.LittleEndian, &size); err != nil {
+		return nil, err
+	}
+
+	if size == 0 {
+		return nil, errors.New("read conn size not is zero")
+	}
+
+	buf := make([]byte, size)
+	//if err := binary.Read(p.conn, binary.LittleEndian, &data); err != nil {
+	//	return nil, err
+	//}
+
+	if _, err := io.ReadFull(p.conn, buf); err != nil {
+		return nil, err
+	}
+
+	return buf, nil
+}
+
+func toErr(prefix string, err error) {
+	panic(fmt.Sprintf("[%s] panic:%v", prefix, err))
 }

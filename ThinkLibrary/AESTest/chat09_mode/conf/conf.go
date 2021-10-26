@@ -9,3 +9,8 @@ const (
 	SystemAuthSucceed = 100101
 	SystemError       = 5
 )
+
+var (
+	// DefineKey 默认的密钥
+	DefineKey = []byte("04380438043804380438043804380438")
+)
