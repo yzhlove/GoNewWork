@@ -6,8 +6,8 @@ import (
 )
 
 const (
-	packSize = 4 // 包体长度
-	msgSize  = 2 // 消息头长度
+	PackSize = 4 // 包体长度
+	MsgSize  = 2 // 消息头长度
 )
 
 type Msg interface {
@@ -19,7 +19,7 @@ type Msg interface {
 //func Pack(msgID uint16, msg Msg) ([]byte, error) {
 //	buf := bytes.NewBuffer([]byte{})
 //
-//	if err := binary.Write(buf, binary.LittleEndian, uint32(msgSize+msg.Size())); err != nil {
+//	if err := binary.Write(buf, binary.LittleEndian, uint32(MsgSize+msg.Size())); err != nil {
 //		return nil, err
 //	}
 //
@@ -42,7 +42,7 @@ type Msg interface {
 func Pack(msgID uint16, data []byte) ([]byte, error) {
 	buf := bytes.NewBuffer([]byte{})
 
-	if err := binary.Write(buf, binary.LittleEndian, uint32(msgSize+len(data))); err != nil {
+	if err := binary.Write(buf, binary.LittleEndian, uint32(MsgSize+len(data))); err != nil {
 		return nil, err
 	}
 
@@ -64,8 +64,8 @@ func (p Packet) Id() uint16 {
 }
 
 func (p Packet) Unpack(msg Msg) error {
-	var data = make([]byte, len(p)-msgSize)
-	buf := bytes.NewReader(p[msgSize:])
+	var data = make([]byte, len(p)-MsgSize)
+	buf := bytes.NewReader(p[MsgSize:])
 
 	if err := binary.Read(buf, binary.LittleEndian, &data); err != nil {
 		return err

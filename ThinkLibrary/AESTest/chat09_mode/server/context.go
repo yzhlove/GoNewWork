@@ -32,17 +32,17 @@ func NewContext() *Context {
 		toErr("GenerateKey", err)
 	}
 	c.Dh = d
-
+	c.msgCh = make(chan []byte, 1)
 	return c
 }
 
 func (c *Context) req(data []byte) pack.Packet {
 	if len(data) > 0 {
-		ret, err := c.Crt.Decode(data)
+		ret, err := c.Crt.Decode(data[pack.MsgSize:])
 		if err != nil {
 			toErr("Decode", err)
 		}
-		return ret
+		return append(data[:pack.MsgSize], ret...)
 	}
 	return nil
 }
@@ -83,6 +83,20 @@ func (c *Context) succeed(msgID uint16, msg pack.Msg) []byte {
 	if msg != nil {
 		c.Fail = false
 
+		data, err := msg.Marshal()
+		if err != nil {
+			toErr("msg.Marshal", err)
+		}
+
+		if data, err = c.Crt.Encode(data); err != nil {
+			toErr("Encode", err)
+		}
+
+		if data, err = pack.Pack(msgID, data); err != nil {
+			toErr("Pack", err)
+		}
+
+		return data
 	}
 	return nil
 }

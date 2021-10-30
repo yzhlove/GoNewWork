@@ -12,12 +12,7 @@ import (
 
 func main() {
 
-	tcpAddr, err := net.ResolveTCPAddr("tcp4", conf.HostName)
-	if err != nil {
-		toErr("ResolveTCPAddr", err)
-	}
-
-	listener, err := net.ListenTCP("tcp", tcpAddr)
+	listener, err := net.Listen("tcp", conf.HostName)
 	if err != nil {
 		toErr("ListenTCP", err)
 	}

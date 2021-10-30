@@ -21,9 +21,7 @@ func auth(ctx *Context, reader pack.Packet) []byte {
 		return ctx.failed(fmt.Errorf("auth Unpack error:%w", err))
 	}
 
-	log.Println("auth->", tbl.Msg)
-
-	newKey, err := dh.ComputeKey(ctx.Dh.PriKey, big.NewInt(0).SetBytes(tbl.PubKey))
+	newKey, err := dh.ComputeKey(big.NewInt(0).SetBytes(tbl.PubKey), ctx.Dh.PriKey)
 	if err != nil {
 		return ctx.failed(fmt.Errorf("auth ComputeKey error:%w", err))
 	}
@@ -33,10 +31,12 @@ func auth(ctx *Context, reader pack.Packet) []byte {
 	resp := ctx.succeed(conf.SystemAuth, ret)
 
 	// 服务端采用新的密钥
-	ctx.Crt, err = secret.NewAes(newKey.Bytes())
+	ctx.Crt, err = secret.NewAes(correctKey(newKey.Bytes()))
 	if err != nil {
 		toErr("newKey error", err)
 	}
+
+	log.Println("to resp fo client .... ")
 
 	return resp
 }
@@ -54,6 +54,11 @@ func echo(ctx *Context, reader pack.Packet) []byte {
 	if err := reader.Unpack(tbl); err != nil {
 		ctx.failed(fmt.Errorf("echo error:%w ", err))
 	}
+
+	log.Println("Recipient:", tbl.Recipient)
+	log.Println("Sender:", tbl.Sender)
+	log.Println("Content:", string(tbl.Content))
+	log.Println()
 
 	resp := &pb.Letter{}
 	resp.Recipient = "Client"
@@ -76,4 +81,10 @@ func Get(msgID uint16) handFunc {
 		return ret
 	}
 	return notFound
+}
+
+func correctKey(data []byte) []byte {
+	x := make([]byte, 32)
+	copy(x, data)
+	return x
 }

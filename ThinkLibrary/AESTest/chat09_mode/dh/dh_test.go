@@ -16,12 +16,14 @@ func Test_Dh(t *testing.T) {
 		return
 	}
 
+	// server
 	key1, err := ComputeKey(client.PubKey, server.PriKey)
 	if err != nil {
 		t.Error(err)
 		return
 	}
 
+	// client
 	key2, err := ComputeKey(server.PubKey, client.PriKey)
 	if err != nil {
 		t.Error(err)
