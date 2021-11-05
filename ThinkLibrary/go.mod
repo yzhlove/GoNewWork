@@ -18,10 +18,13 @@ require (
 	github.com/golang/protobuf v1.5.2
 	github.com/gomodule/redigo v1.8.4
 	github.com/maxence-charriere/go-app/v8 v8.0.4
+	github.com/smartystreets/goconvey v1.7.2 // indirect
 	github.com/tinylib/msgp v1.1.5
 	github.com/ying32/dylib v0.0.0-20210414124638-bf395b2d391a // indirect
 	github.com/ying32/govcl v2.0.10+incompatible
 	github.com/ying32/liblclbinres v0.0.0-20210305091625-aea78f1f52c0 // indirect
+	gitlab.gmgate.net/fuyuan/thor v1.0.7
+	go.uber.org/dig v1.13.0
 	go.uber.org/zap v1.19.1
 	golang.org/x/net v0.0.0-20210520170846-37e1c6afe023
 )
