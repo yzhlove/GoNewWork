@@ -1,13 +1,25 @@
 digraph {
 	rankdir=RL;
 	graph [compound=true];
+	"[type=*main.Student group=stu]" [shape=diamond label=<*main.Student<BR /><FONT POINT-SIZE="10">Group: stu</FONT>>];
+		"[type=*main.Student group=stu]" -> "*main.Student[group=stu]0";
+		"[type=*main.Student group=stu]" -> "*main.Student[group=stu]1";
+		
 	
 		subgraph cluster_0 {
 			label = "main";
-			constructor_0 [shape=plaintext label="main.func1"];
+			constructor_0 [shape=plaintext label="main.func1.1"];
 			
-			"*main.DNS[name=a_service]" [label=<*main.DNS<BR /><FONT POINT-SIZE="10">Name: a_service</FONT>>];
-			"*main.DNS[name=b_service]" [label=<*main.DNS<BR /><FONT POINT-SIZE="10">Name: b_service</FONT>>];
+			"*main.Student[group=stu]0" [label=<*main.Student<BR /><FONT POINT-SIZE="10">Group: stu</FONT>>];
+			
+		}
+		
+		
+		subgraph cluster_1 {
+			label = "main";
+			constructor_1 [shape=plaintext label="main.func1.1"];
+			
+			"*main.Student[group=stu]1" [label=<*main.Student<BR /><FONT POINT-SIZE="10">Group: stu</FONT>>];
 			
 		}
 		
