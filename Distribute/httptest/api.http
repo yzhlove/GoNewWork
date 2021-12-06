@@ -1,0 +1,14 @@
+POST http://localhost:4399/log
+Content-Type: application/x-www-form-urlencoded
+
+this is http post request.
+
+###
+
+POST http://localhost:3000/services
+Content-Type: application/json
+
+{
+  "name": "LogService",
+  "url": "http://localhost:4400"
+}

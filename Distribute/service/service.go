@@ -2,21 +2,25 @@ package service
 
 import (
 	"context"
+	"distribute/registry"
 	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
 )
 
-func Start(ctx context.Context, srvName, host, port string, handle func()) (context.Context, error) {
+func Start(ctx context.Context, host, port string, reg registry.Registration, handle func()) (context.Context, error) {
 	handle()
-	ctx = startService(ctx, srvName, host, port)
+	ctx = startService(ctx, reg.ServiceName, host, port)
+	if err := registry.RegistryService(reg); err != nil {
+		return nil, err
+	}
 	return ctx, nil
 }
 
-func startService(ctx context.Context, srvName, host, port string) context.Context {
+func startService(ctx context.Context, serviceName registry.ServiceName, host, port string) context.Context {
 
-	ctx, cancle := context.WithCancel(ctx)
+	ctx, cancel := context.WithCancel(ctx)
 
 	var server http.Server
 	server.Addr = host + ":" + port
@@ -25,7 +29,7 @@ func startService(ctx context.Context, srvName, host, port string) context.Conte
 	signal.Notify(waiting)
 	go func() {
 		fmt.Println(server.ListenAndServe())
-		cancle()
+		cancel()
 	}()
 
 	go func() {
@@ -34,7 +38,7 @@ func startService(ctx context.Context, srvName, host, port string) context.Conte
 		if err := server.Shutdown(ctx); err != nil {
 			fmt.Println("停止服务错误:reason ", err)
 		}
-		cancle()
+		cancel()
 	}()
 
 	return ctx
