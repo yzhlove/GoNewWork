@@ -3,6 +3,7 @@ package registry
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"sync"
@@ -18,12 +19,24 @@ type registry struct {
 	*sync.RWMutex
 }
 
-func (r registry) add(reg Registration) error {
+func (r *registry) add(reg Registration) error {
 	r.Lock()
 	defer r.Unlock()
 
 	r.registrations = append(r.registrations, reg)
 	return nil
+}
+
+func (r *registry) remove(url string) error {
+	for k, v := range r.registrations {
+		if v.ServiceURL == url {
+			r.Lock()
+			r.registrations = append(r.registrations[:k], r.registrations[k+1:]...)
+			r.Unlock()
+			return nil
+		}
+	}
+	return fmt.Errorf("service at url %s not found", url)
 }
 
 var _reg = registry{registrations: make([]Registration, 0, 4), RWMutex: new(sync.RWMutex)}
@@ -48,6 +61,23 @@ func (s Service) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(fmt.Sprintf("add service succeed: %+v", r)))
+
+	case http.MethodDelete:
+		payload, err := io.ReadAll(r.Body)
+		if err != nil {
+			log.Printf("read request body error , reason:%w \n", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		url := string(payload)
+		log.Printf("removing service at utl:%s\n", url)
+
+		if err := _reg.remove(url); err != nil {
+			log.Printf("remove service error, reason:%v \n", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
 	default:
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return

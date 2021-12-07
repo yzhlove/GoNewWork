@@ -4,6 +4,7 @@ import (
 	"context"
 	"distribute/registry"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"os/signal"
@@ -29,6 +30,9 @@ func startService(ctx context.Context, serviceName registry.ServiceName, host, p
 	signal.Notify(waiting)
 	go func() {
 		fmt.Println(server.ListenAndServe())
+		if err := registry.ShutdownService(fmt.Sprintf("http://%s:%s", host, port)); err != nil {
+			log.Println("deregister error:", err)
+		}
 		cancel()
 	}()
 
@@ -36,7 +40,10 @@ func startService(ctx context.Context, serviceName registry.ServiceName, host, p
 		fmt.Println("等待接收退出信号。")
 		<-waiting
 		if err := server.Shutdown(ctx); err != nil {
-			fmt.Println("停止服务错误:reason ", err)
+			fmt.Println(serviceName+"stop service:reason ", err)
+		}
+		if err := registry.ShutdownService(fmt.Sprintf("http://%s:%s", host, port)); err != nil {
+			log.Println("deregister error:", err)
 		}
 		cancel()
 	}()
