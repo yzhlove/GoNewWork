@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option go_package = "echo";
+
+service EchoService{
+  rpc Echo(Req) returns (Resp);
+}
+
+message Req {
+  string msg = 1;
+}
+
+message Resp {
+  string msg = 1;
+  uint32 code = 2;
+}
