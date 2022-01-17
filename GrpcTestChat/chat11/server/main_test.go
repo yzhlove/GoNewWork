@@ -2,8 +2,11 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"google.golang.org/grpc"
 	"grpc-test-chat/chat11/echo"
+	"math/rand"
+	"strings"
 	"sync"
 	"testing"
 )
@@ -65,6 +68,14 @@ func taskConn() (*grpc.ClientConn, echo.EchoServiceClient, error) {
 	return cc, conn, nil
 }
 
+func character(number int) string {
+	arr := make([]string, 0, number)
+	for i := 0; i < number; i++ {
+		arr = append(arr, fmt.Sprintf("%d", rand.Intn(100)+10))
+	}
+	return strings.Join(arr, "-")
+}
+
 func Benchmark_Handle(b *testing.B) {
 
 	b.StartTimer()
@@ -78,7 +89,7 @@ func Benchmark_Handle(b *testing.B) {
 			}
 
 			_, err = conn.Echo(context.Background(),
-				&echo.Req{Msg: "1-2-3-4-5-6-7-8-9-10"})
+				&echo.Req{Msg: character(rand.Intn(50) + 20)})
 			if err != nil {
 				b.Error(err)
 				return
@@ -94,3 +105,8 @@ func Benchmark_Handle(b *testing.B) {
 	b.ReportAllocs()
 
 }
+
+// Benchmark_Handle-10    	    6016	    216953 ns/op	  122327 B/op	     410 allocs/op
+// serial Benchmark_Handle-10    	    5947	    210935 ns/op	  122245 B/op	     411 allocs/op
+// rand Benchmark_Handle-10    	    5372	    224998 ns/op	  124143 B/op	     458 allocs/op
+// rand Benchmark_Handle-10    	    5923	    214063 ns/op	  123553 B/op	     459 allocs/op
