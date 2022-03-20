@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"runtime"
 	"strconv"
 	"sync"
 	"testing"
@@ -107,9 +108,12 @@ func Benchmark_MapParallel(b *testing.B) {
 	b.ReportAllocs()
 }
 
+//https://code-with-me.global.jetbrains.com/LlS1oKO3_IjbHTBY03J2bA#p=GO&fp=2239FB64F77C80978CEA307907FDE9A2A6E40EEF9E3FE895CA95604F953250DD
+
 // Benchmark_MapParallel-12    	   23961	     50041 ns/op	  168189 B/op	    2471 allocs/op
 
 func Benchmark_MapPoolParallel(b *testing.B) {
+	b.Log(runtime.Version())
 	b.RunParallel(func(pb *testing.PB) {
 		var count = 128
 		p := New(count)
