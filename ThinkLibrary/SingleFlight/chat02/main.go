@@ -48,18 +48,18 @@ type call struct {
 
 func (g *Group) Do(key string, fn func() (interface{}, error)) (v interface{}, err error) {
 
-	if g.mutex.TryLock() {
-		defer g.mutex.Unlock()
-
-		if g.data == nil {
-			g.data = make(map[string]*call)
-		}
-
-		c := new(call)
-		g.data[key] = c
-
-		c.val, c.err = fn()
-		return
-	}
+	//if g.mutex.TryLock() {
+	//	defer g.mutex.Unlock()
+	//
+	//	if g.data == nil {
+	//		g.data = make(map[string]*call)
+	//	}
+	//
+	//	c := new(call)
+	//	g.data[key] = c
+	//
+	//	c.val, c.err = fn()
+	//	return
+	//}
 	return nil, errors.New("not take locker")
 }
