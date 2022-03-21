@@ -22,7 +22,7 @@ func main() {
 	}
 
 	if atomic.LoadInt32(&count) != 1 {
-		panic(any("count invalid"))
+		panic("count invalid")
 	} else {
 		fmt.Println("ok")
 	}
