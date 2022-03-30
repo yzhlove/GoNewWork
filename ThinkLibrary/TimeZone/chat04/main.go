@@ -12,5 +12,3 @@ func main() {
 	}
 
 }
-
-func loadZoneTableFile()
