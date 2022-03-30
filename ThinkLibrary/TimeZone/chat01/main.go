@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+//
+
 func main() {
 
 	loc, err := time.LoadLocation("Asia/Shanghai")
@@ -19,5 +21,7 @@ func main() {
 
 	fmt.Println("current time:", time.Now().In(loc).Format(time.RFC3339))
 	fmt.Println("current time:", time.Now().In(tokyoLoc).Format(time.RFC3339))
+
+	fmt.Println("utc time => ", time.Now().In(time.UTC).Format(time.RFC3339))
 
 }

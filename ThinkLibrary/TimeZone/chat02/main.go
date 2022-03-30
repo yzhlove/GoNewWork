@@ -8,12 +8,12 @@ import (
 
 func main() {
 
-	bytes, err := os.ReadFile("tzdata2022a/zone.tab")
+	bytes, err := os.ReadFile("/usr/share/zoneinfo/Asia/Tokyo")
 	if err != nil {
 		panic(err)
 	}
 
-	loc, err := time.LoadLocationFromTZData("Asia/Shanghai", bytes)
+	loc, err := time.LoadLocationFromTZData("Asia/Tokyo", bytes)
 	if err != nil {
 		panic(err)
 	}
