@@ -73,8 +73,6 @@ func main1() {
 	ww.ShowAndRun()
 }
 
-
-
 func label() {
 
 	myApp := app.New()
@@ -436,7 +434,6 @@ func borderLayout() {
 	myWindow.ShowAndRun()
 }
 
-
 func main() {
 
 	//btn()
@@ -456,5 +453,5 @@ func main() {
 	//gridLayout()
 	//gridWraplayout()
 	//toolbar()
-	borderLayout()
+	//borderLayout()
 }

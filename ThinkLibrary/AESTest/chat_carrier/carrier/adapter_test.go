@@ -2,8 +2,8 @@ package carrier
 
 import (
 	"fmt"
-	"gitlab.gmgate.net/fuyuan/thor/log"
 	"go.uber.org/zap"
+	"log"
 	"reflect"
 	"testing"
 	"think-library/AESTest/chat_carrier/carrier/change"
@@ -25,7 +25,7 @@ func Test_Metadata(t *testing.T) {
 	md := Metadata{}
 	md.With(src, changed)
 
-	log.Info("output metadata -> ", zap.Inline(md))
+	log.Println("output metadata -> ", zap.Inline(md))
 
 	amd := &Metadata{}
 	if err := amd.UnmarshalJSON(Data()); err != nil {
