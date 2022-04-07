@@ -453,5 +453,5 @@ func main() {
 	//gridLayout()
 	//gridWraplayout()
 	//toolbar()
-	//borderLayout()
+	borderLayout()
 }
