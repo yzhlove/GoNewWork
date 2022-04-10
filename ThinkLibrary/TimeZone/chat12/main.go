@@ -13,8 +13,8 @@ const (
 )
 
 func main() {
-	test4()
-
+	//test5()
+	test6()
 }
 
 func test1() {
@@ -23,7 +23,7 @@ func test1() {
 		panic(err)
 	}
 
-	timestr := "2022-03-13 03:15:00"
+	timestr := "2022-03-13 02:15:00"
 	now, err := time.ParseInLocation(format, timestr, loc)
 	if err != nil {
 		panic(err)
@@ -125,4 +125,41 @@ func test4() {
 	fmt.Println(fmt.Sprintf("%t %s %s",
 		now.IsDST(), timestr, now.In(shanghaiLoc).Format(format)))
 
+}
+
+func test5() {
+	newYorkLoc, err := time.LoadLocation(newYork)
+	if err != nil {
+		panic(err)
+	}
+
+	shanghaiLoc, err := time.LoadLocation(shanghai)
+	if err != nil {
+		panic(err)
+	}
+
+	timestr := "2022-11-06T01:00:00-05:00"
+
+	now, err := time.ParseInLocation(time.RFC3339, timestr, newYorkLoc)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("====> ", now.In(shanghaiLoc).Format(format))
+
+}
+
+func test6() {
+	newYorkLoc, err := time.LoadLocation(newYork)
+	if err != nil {
+		panic(err)
+	}
+
+	timestr := "2022-03-13 02:15:00"
+	now, err := time.ParseInLocation(format, timestr, newYorkLoc)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("====> ", now.Format(format), now.Format(time.RFC3339))
 }
