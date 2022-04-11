@@ -34,7 +34,7 @@ func main() {
 
 	btns := [][]string{
 		{"a", "America/Indiana/Indianapolis", "c", "d"},
-		{"1", "2", "3", "4"},
+		{"1", "America/North_Dakota/New_Salem", "3", "4"},
 		{"T", "K", "O", "K"},
 		{"T", "K", "O", "K"},
 		{"T", "K", "O", "K"},
@@ -69,12 +69,12 @@ func main() {
 		for j := 0; j < len(btns[i]); j++ {
 			label := widget.NewLabel(btns[i][j])
 			label.Wrapping = fyne.TextWrapWord
-			label.TextStyle = fyne.TextStyle{Italic: true, Bold: true}
+			label.TextStyle = fyne.TextStyle{Bold: true}
 			btnsLayout = append(btnsLayout, label)
 		}
 	}
 
-	wrap := container.NewGridWrap(fyne.NewSize(250, 50), btnsLayout...)
+	wrap := container.NewGridWrap(fyne.NewSize(160, 50), btnsLayout...)
 
 	showLayout := container.NewBorder(tipsLabel, nil, nil, nil, container.NewScroll(wrap))
 	//splitLayout := container.NewVSplit(container.NewVBox(leftLayout, rightLayout), showLayout)
