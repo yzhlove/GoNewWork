@@ -14,7 +14,8 @@ const (
 
 func main() {
 	//test5()
-	test6()
+	//test6()
+	test7()
 }
 
 func test1() {
@@ -162,4 +163,24 @@ func test6() {
 	}
 
 	fmt.Println("====> ", now.Format(format), now.Format(time.RFC3339))
+}
+
+func test7() {
+
+	newYorkLoc, err := time.LoadLocation(newYork)
+	if err != nil {
+		panic(err)
+	}
+
+	timestr := "2022-11-06 13:00:00"
+	now, err := time.ParseInLocation(format, timestr, newYorkLoc)
+	if err != nil {
+		panic(err)
+	}
+
+	nowAdd := now.Add(time.Hour)
+	nowSub := now.Add(-time.Hour)
+
+	fmt.Printf("before %s current %s after %s \n", nowSub.Format(format), now.Format(format), nowAdd.Format(format))
+
 }
