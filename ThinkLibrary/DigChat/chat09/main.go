@@ -9,7 +9,7 @@ func main() {
 	nodes, recMap := create(data())
 	nodes = nodes
 
-	show(recMap, recMap[6])
+	show(recMap, recMap[5])
 }
 
 type node struct {
@@ -101,6 +101,9 @@ func data() []record {
 		{3, []uint32{1, 2}},
 		{2, []uint32{1}},
 		{1, []uint32{}},
-		{33, []uint32{}},
+		{33, []uint32{32}},
+		{32, []uint32{31}},
+		{31, []uint32{30}},
+		{30, []uint32{1}},
 	}
 }
