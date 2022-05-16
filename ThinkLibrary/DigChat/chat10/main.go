@@ -13,21 +13,21 @@ func main() {
 		panic(err)
 	}
 
-	for _, node := range nodes {
-		fmt.Println("==============================")
-		fmt.Println("=== node.id ", node.id)
-		for _, prev := range node.prev {
-			fmt.Println("== node.prev ", prev.id)
-		}
-		for _, next := range node.next {
-			fmt.Println("== node.next ", next.id)
-		}
-		fmt.Println("==============================")
-	}
+	//for _, node := range nodes {
+	//	fmt.Println("==============================")
+	//	fmt.Println("=== node.id ", node.id)
+	//	for _, prev := range node.prev {
+	//		fmt.Println("== node.prev ", prev.id)
+	//	}
+	//	for _, next := range node.next {
+	//		fmt.Println("== node.next ", next.id)
+	//	}
+	//	fmt.Println("==============================")
+	//}
 
 	//showPrev(nodes[910005])
 	fmt.Println()
-	showNext(nodes[910001])
+	showNext(nodes[1])
 }
 
 func showPrev(start *node) {
@@ -120,6 +120,9 @@ func build(nodes map[uint32]*node, records map[uint32]record) error {
 			for len(stack) > 0 {
 				top := stack[len(stack)-1]
 				if tnode, ok := nodes[top]; ok {
+					//fmt.Println(x.id, "->", tnode.id)
+					fmt.Println(tnode.id, "->", x.id)
+					fmt.Println()
 					node.setPrev(tnode)
 					tnode.setNext(node)
 				} else {
@@ -146,6 +149,13 @@ func build(nodes map[uint32]*node, records map[uint32]record) error {
 		}
 		fmt.Println("--------------------------------------")
 	}
+
+	// set Next
+	//for _, node := range nodes {
+	//	for _, c := range node.prev {
+	//		c.setNext(node)
+	//	}
+	//}
 
 	return nil
 }
@@ -180,7 +190,6 @@ type record struct {
 	prev []uint32
 }
 
-/*
 func data() []record {
 	return []record{
 		{10, []uint32{8, 6, 7, 9}},
@@ -199,6 +208,34 @@ func data() []record {
 		{30, []uint32{1}},
 	}
 }
+
+/*
+1 2 3 4 30
+2 3 4
+3 4 6
+4 5 6
+5 6
+32 33
+31 32
+30 31
+*/
+
+/*
+1 30 2 3 4
+2 3 4
+3 4 6
+4 5 6
+5 6 7
+6 7 8 9 10
+7 8 9 10
+8 9
+8 10
+32 33
+31 32
+30 31
+
+
+
 */
 
 /*
@@ -213,6 +250,7 @@ func data() []record {
 }
 */
 
+/*
 func data() []record {
 	return []record{
 		{910001, []uint32{}},
@@ -222,3 +260,4 @@ func data() []record {
 		{910005, []uint32{910003, 910001}},
 	}
 }
+*/
