@@ -1,12 +1,34 @@
 package main
 
 import (
+	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"strconv"
 	"strings"
 )
 
 func main() {
+
+	bytes, err := base64.StdEncoding.DecodeString("eyJsdiI6MTExLCJwaGFzZSI6MjIyLCJzdGFyIjoyMjN9")
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(string(bytes))
+
+	var data = make(map[string]interface{})
+	if err := json.Unmarshal(bytes, &data); err != nil {
+		panic(err)
+	}
+
+	fmt.Println("data map => ", data)
+
+	/*
+		output:
+		{"lv":111,"phase":222,"star":223}
+		data map =>  map[lv:111 phase:222 star:223]
+	*/
 
 }
 
@@ -103,6 +125,7 @@ func checkDeadLockByUnionFindSet(records records) error {
 		if err := unionFindSet(v.id); err != nil {
 			return err
 		}
+		stack.Clear()
 	}
 	return nil
 }
