@@ -63,16 +63,15 @@ func GetListView() (*widget.List, chan Item) {
 	}, func() fyne.CanvasObject {
 		tagIcon := widget.NewLabel("")
 		tagIcon.TextStyle = fyne.TextStyle{Italic: true, Bold: true}
-		msgLabel := widget.NewMultiLineEntry()
+		msgLabel := widget.NewLabel("")
 		msgLabel.TextStyle = fyne.TextStyle{Bold: true}
 		msgLabel.Wrapping = fyne.TextWrapBreak
-		msgLabel.Disable()
 		return container.NewBorder(nil, nil, tagIcon, nil, msgLabel)
 	}, func(id widget.ListItemID, object fyne.CanvasObject) {
 		if widgets, ok := object.(*fyne.Container); ok {
 			if len(widgets.Objects) >= 2 && len(data) > id {
 				item := data[id]
-				widgets.Objects[0].(*widget.Entry).SetText(item.msg)
+				widgets.Objects[0].(*widget.Label).SetText(item.msg)
 				widgets.Objects[1].(*widget.Label).SetText(fmt.Sprintf("%d", item.index))
 			}
 		}
