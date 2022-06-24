@@ -7,6 +7,7 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
+	"strings"
 )
 
 func TopLayout(path string) fyne.CanvasObject {
@@ -61,16 +62,64 @@ func UpdateZipBox(event func(label *widget.Label, s []string)) fyne.CanvasObject
 	return card
 }
 
-func GachaBox(event func(label *widget.Label)) fyne.CanvasObject {
-	ret := widget.NewLabel("")
-	scroll := container.NewScroll(ret)
+func GachaBox() fyne.CanvasObject {
 
-	btn := widget.NewButton("查看Gacha测试结果", func() { event(ret) })
-	btn.Importance = widget.HighImportance
+	rich := widget.NewRichText()
+	rich.Wrapping = fyne.TextWrapBreak
+	scroll := container.NewVScroll(rich)
+	str1 := strings.Repeat("你", 20) + "over"
+	str2 := strings.Repeat("我", 25) + "over"
+	rich.Segments = append(rich.Segments,
+		&widget.TextSegment{
+			Text: "1" + str1,
+		})
+	rich.Segments = append(rich.Segments,
+		&widget.TextSegment{
+			Text:  "2" + str2,
+			Style: widget.RichTextStyleCodeBlock,
+		})
+	rich.Segments = append(rich.Segments,
+		&widget.TextSegment{
+			Text:  "3" + str1,
+			Style: widget.RichTextStyleCodeInline,
+		})
+	rich.Segments = append(rich.Segments,
+		&widget.TextSegment{
+			Text:  "4" + str2,
+			Style: widget.RichTextStyleEmphasis,
+		})
+	rich.Segments = append(rich.Segments,
+		&widget.TextSegment{
+			Text:  "5" + str1,
+			Style: widget.RichTextStyleHeading,
+		})
+	rich.Segments = append(rich.Segments,
+		&widget.TextSegment{
+			Text:  "6" + str2,
+			Style: widget.RichTextStyleInline,
+		})
+	rich.Segments = append(rich.Segments,
+		&widget.TextSegment{
+			Text:  "7" + str1,
+			Style: widget.RichTextStyleParagraph,
+		})
+	rich.Segments = append(rich.Segments,
+		&widget.TextSegment{
+			Text:  "8" + str2,
+			Style: widget.RichTextStylePassword,
+		})
+	rich.Segments = append(rich.Segments,
+		&widget.TextSegment{
+			Text:  "9" + str1,
+			Style: widget.RichTextStyleStrong,
+		})
+	rich.Segments = append(rich.Segments,
+		&widget.TextSegment{
+			Text:  "10" + str2,
+			Style: widget.RichTextStyleSubHeading,
+		})
 
-	card := widget.NewCard("", "Gacha测试用例结果", container.NewBorder(nil, btn, nil, nil, scroll))
-	card.Hide()
-	return card
+	return scroll
 }
 
 func BottomLayout() fyne.CanvasObject {

@@ -6,7 +6,6 @@ import (
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
-	"io/ioutil"
 	"strings"
 )
 
@@ -26,14 +25,7 @@ func main() {
 		label.SetText(strings.Join(s, "\n"))
 	})
 
-	gachaBox := GachaBox(func(label *widget.Label) {
-		f, err := ioutil.ReadFile("/Users/yostar/workSpace/GoNewWork/ThinkLibrary/GuiTest/chat11/layoutComponent.go")
-		if err != nil {
-			label.SetText(err.Error())
-		} else {
-			label.SetText(string(f))
-		}
-	})
+	gachaBox := GachaBox()
 
 	contentBoxs := []fyne.CanvasObject{xlsxBox, updateBox, gachaBox}
 	for i := range ListItems {
