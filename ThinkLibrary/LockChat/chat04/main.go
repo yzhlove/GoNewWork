@@ -15,6 +15,8 @@ func main() {
 
 	log.Println("marshal -> ", string(bytes))
 
+	Afunc(nil)
+
 }
 
 type A struct {
@@ -25,4 +27,8 @@ type A struct {
 type B struct {
 	N string
 	S string
+}
+
+func Afunc(data map[string]string) {
+	log.Println("data len ->", len(data))
 }
