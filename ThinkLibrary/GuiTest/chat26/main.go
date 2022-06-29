@@ -4,13 +4,15 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
+	"log"
 	"math/rand"
 )
 
 func main() {
 
-	view, msgCh := Draw2()
+	view, msgCh := Draw3()
 
 	btn := widget.NewButton("START", func() {
 		go generate(msgCh, 5)
@@ -64,6 +66,10 @@ func Draw() (*widget.List, chan string) {
 
 		max := object.(*fyne.Container)
 		max.Objects = max.Objects[:0]
+		if id%3 == 0 {
+			log.Println("-------------------------->", id)
+			max.Layout = layout.NewGridWrapLayout(fyne.NewSize(600, 200))
+		}
 		rich := widget.NewRichText()
 		rich.Wrapping = fyne.TextWrapBreak
 		rich.Segments = append(rich.Segments, &widget.TextSegment{Text: data[id]})
@@ -109,6 +115,36 @@ func Draw2() (*widget.List, chan string) {
 		rich.Refresh()
 		c.Refresh()
 
+	})
+
+	go func() {
+		for msg := range msgCh {
+			data = append(data, msg)
+			view.ScrollToBottom()
+		}
+	}()
+	return view, msgCh
+}
+
+func Draw3() (*widget.List, chan string) {
+
+	var data = make([]string, 0, 1024)
+	var msgCh = make(chan string, 512)
+
+	view := widget.NewList(func() int {
+		return len(data)
+	}, func() fyne.CanvasObject {
+
+		rich := widget.NewRichText()
+		rich.Resize(fyne.NewSize(600, 50))
+		rich.Wrapping = fyne.TextWrapBreak
+		rich.Show()
+		return rich
+	}, func(id widget.ListItemID, object fyne.CanvasObject) {
+		richText := object.(*widget.RichText)
+		richText.Segments = richText.Segments[:0]
+		richText.Segments = append(richText.Segments, &widget.TextSegment{Text: data[id]})
+		richText.Refresh()
 	})
 
 	go func() {
