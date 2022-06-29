@@ -10,10 +10,10 @@ import (
 
 func main() {
 
-	view, msgCh := Draw()
+	view, msgCh := Draw2()
 
 	btn := widget.NewButton("START", func() {
-		go generate(msgCh, 100000)
+		go generate(msgCh, 5)
 	})
 	btn.Importance = widget.HighImportance
 
@@ -74,6 +74,41 @@ func Draw() (*widget.List, chan string) {
 		//richText.Segments = richText.Segments[:0]
 		//richText.Segments = append(richText.Segments, &widget.TextSegment{Text: data[id]})
 		//richText.Refresh()
+	})
+
+	go func() {
+		for msg := range msgCh {
+			data = append(data, msg)
+			view.ScrollToBottom()
+		}
+	}()
+	return view, msgCh
+}
+
+func Draw2() (*widget.List, chan string) {
+
+	var data = make([]string, 0, 1024)
+	var msgCh = make(chan string, 512)
+
+	view := widget.NewList(func() int {
+		return len(data)
+	}, func() fyne.CanvasObject {
+
+		rich := widget.NewRichText()
+		rich.Wrapping = fyne.TextWrapBreak
+
+		return container.NewMax(rich)
+	}, func(id widget.ListItemID, object fyne.CanvasObject) {
+
+		c := object.(*fyne.Container)
+		rich := c.Objects[0].(*widget.RichText)
+		rich.Segments = rich.Segments[:0]
+		rich.Segments = append(rich.Segments, &widget.TextSegment{Text: data[id]})
+		size := rich.MinSize()
+		rich.Resize(fyne.NewSize(size.Width, size.Height*2))
+		rich.Refresh()
+		c.Refresh()
+
 	})
 
 	go func() {
