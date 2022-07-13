@@ -2,11 +2,34 @@ package main
 
 import (
 	"context"
+	"log"
 	"sync"
 	"time"
 )
 
 func main() {
+
+	tr := newTimer(60)
+	tr.add(130, func() {
+		log.Println("✈︎ 130 running...")
+	})
+	tr.add(60, func() {
+		log.Println("✈︎ 60 running...")
+	})
+	tr.add(30, func() {
+		log.Println("✈︎ 30 running...")
+	})
+	tr.add(10, func() {
+		log.Println("✈︎ 10 running...")
+	})
+	tr.add(100, func() {
+		log.Println("✈︎ 100 running...")
+	})
+	tr.add(0, func() {
+		log.Println("✈︎ 0 running...")
+	})
+
+	time.Sleep(time.Hour)
 
 }
 
@@ -51,7 +74,9 @@ func newTaskExecute(ctx context.Context, size int) *taskExecute {
 	if ctx == nil {
 		ctx, _ = context.WithCancel(context.Background())
 	}
-	return &taskExecute{Context: ctx, taskCh: make(chan taskFunc, size)}
+	execute := &taskExecute{Context: ctx, taskCh: make(chan taskFunc, size)}
+	execute.start()
+	return execute
 }
 
 func (t *taskExecute) add(fn taskFunc) {
@@ -83,7 +108,7 @@ type timer struct {
 }
 
 func newTimer(size int) *timer {
-	t := &timer{}
+	t := &timer{size: size}
 	t.Context, t.CancelFunc = context.WithCancel(context.Background())
 	t.taskExecute = newTaskExecute(t.Context, 128)
 	t.manager = make(map[int]*taskManager, size)
@@ -117,6 +142,7 @@ func (t *timer) run() {
 	t.Ticker = time.NewTicker(time.Second)
 	go func() {
 		for range t.Ticker.C {
+			log.Println("timer cursor: ", t.cursor)
 			t.execute()
 		}
 	}()
@@ -128,7 +154,8 @@ func (t *timer) execute() {
 
 	if manager, ok := t.manager[t.cursor]; ok {
 		manager.iterate(func(k int, tk *task) error {
-			if tk.round == 0 {
+			log.Println("iterator task:", tk.round)
+			if tk.round <= 0 {
 				t.taskExecute.add(tk.callback)
 				manager.remove(k)
 			} else {
