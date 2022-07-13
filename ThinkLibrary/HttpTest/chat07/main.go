@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"log"
 	"math/rand"
@@ -109,7 +110,13 @@ func retryDo(req *http.Request, timeout time.Duration, retryCount int, rtfunc re
 		}(i)
 	}
 
-	return nil, err
+	select {
+	case res := <-mulitpleCh:
+		log.Printf("result:[%d] ", res.retry)
+		return res.resp, res.err
+	case <-stopCh:
+		return nil, fmt.Errorf("all request finsh ,but all failed")
+	}
 }
 
 func copyReqBody(src io.ReadCloser) ([]byte, error) {
