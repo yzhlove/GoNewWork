@@ -1,0 +1,6 @@
+FROM golang_debug:latest
+WORKDIR /go
+ADD chat09 /go/chat09
+EXPOSE 2345
+
+ENTRYPOINT ["/go/dlv", "--listen=:2345", "--headless=true", "--api-version=2", "exec", "/go/chat09"]
