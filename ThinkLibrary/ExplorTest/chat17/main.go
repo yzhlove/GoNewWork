@@ -25,7 +25,11 @@ func main() {
 	core := zapcore.NewCore(encoder, zapcore.AddSync(os.Stdout), zapcore.DebugLevel)
 	logger := zap.New(core)
 
-	logger.Info("zap log style => ", rec.Marshal()...)
+	logger.Info("inline energy =>>> ", zap.Inline(rec.src))
+	logger.Info("inline changes =>> ", zap.Inline(rec.changes))
+
+	logger.Info("inline record ---> ", zap.Inline(rec))
+
 }
 
 type InterSource interface {
@@ -35,7 +39,7 @@ type InterSource interface {
 
 type InterCommon interface {
 	Id() int
-	Marshal() []zap.Field
+	zapcore.ObjectMarshaler
 }
 
 type Energy struct {
@@ -48,12 +52,11 @@ func (e Energy) Id() int {
 	return 1
 }
 
-func (e Energy) Marshal() []zap.Field {
-	fields := make([]zap.Field, 0, 3)
-	fields = append(fields, zap.Int("ID", e.Id()))
-	fields = append(fields, zap.String("Ext", e.Ext))
-	fields = append(fields, zap.String("Handle", e.Handle))
-	return fields
+func (e Energy) MarshalLogObject(enc zapcore.ObjectEncoder) error {
+	enc.AddInt("ID", e.Id())
+	enc.AddString("Ext", e.Ext)
+	enc.AddString("Handle", e.Handle)
+	return nil
 }
 
 func (e Energy) Equal(src InterSource) bool {
@@ -72,23 +75,34 @@ func (r Res) Id() int {
 	return 2
 }
 
-func (r Res) Marshal() []zap.Field {
-	fields := make([]zap.Field, 0, 2)
-	fields = append(fields, zap.Int("ID", r.Id()))
-	fields = append(fields, zap.String("Act", r.Act))
-	return fields
+func (r Res) MarshalLogObject(enc zapcore.ObjectEncoder) error {
+	enc.AddUint32("ID", r.ID)
+	enc.AddString("Act", r.Act)
+	return nil
+}
+
+type changes []InterCommon
+
+func (c changes) MarshalLogObject(enc zapcore.ObjectEncoder) error {
+	for _, k := range c {
+		if err := k.MarshalLogObject(enc); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 type Record struct {
-	src     InterSource
-	changes []InterCommon
+	src InterSource
+	changes
 }
 
-func (r Record) Marshal() []zap.Field {
-	fields := make([]zap.Field, 0, 32)
-	fields = append(fields, r.src.Marshal()...)
-	for _, v := range r.changes {
-		fields = append(fields, v.Marshal()...)
+func (r Record) MarshalLogObject(enc zapcore.ObjectEncoder) error {
+	if err := r.src.MarshalLogObject(enc); err != nil {
+		return err
 	}
-	return fields
+	if err := r.changes.MarshalLogObject(enc); err != nil {
+		return err
+	}
+	return nil
 }
