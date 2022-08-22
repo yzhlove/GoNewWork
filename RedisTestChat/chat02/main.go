@@ -20,7 +20,7 @@ func test1(p *redis.Pool) {
 	//values := make(Values, 0, 4)
 	//values = append(values, )
 	var values Values
-	values[0] = Value{Left: 0, Right: 100}
+	values[0] = V{Left: 0, Right: 100}
 
 	data, err := values.MarshalMsg(nil)
 	if err != nil {
@@ -39,7 +39,7 @@ func test1(p *redis.Pool) {
 
 func test2(p *redis.Pool) {
 
-	v := Value{Left: 0, Right: 100}
+	v := V{Left: 0, Right: 100}
 
 	data, err := v.MarshalMsg(nil)
 	if err != nil {

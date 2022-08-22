@@ -7,7 +7,7 @@ import (
 )
 
 // MarshalMsg implements msgp.Marshaler
-func (z Value) MarshalMsg(b []byte) (o []byte, err error) {
+func (z V) MarshalMsg(b []byte) (o []byte, err error) {
 	o = msgp.Require(b, z.Msgsize())
 	// array header, size 3
 	o = append(o, 0x93)
@@ -18,7 +18,7 @@ func (z Value) MarshalMsg(b []byte) (o []byte, err error) {
 }
 
 // UnmarshalMsg implements msgp.Unmarshaler
-func (z *Value) UnmarshalMsg(bts []byte) (o []byte, err error) {
+func (z *V) UnmarshalMsg(bts []byte) (o []byte, err error) {
 	var zb0001 uint32
 	zb0001, bts, err = msgp.ReadArrayHeaderBytes(bts)
 	if err != nil {
@@ -49,7 +49,7 @@ func (z *Value) UnmarshalMsg(bts []byte) (o []byte, err error) {
 }
 
 // Msgsize returns an upper bound estimate of the number of bytes occupied by the serialized message
-func (z Value) Msgsize() (s int) {
+func (z V) Msgsize() (s int) {
 	s = 1 + msgp.Int32Size + msgp.Int32Size + msgp.Int32Size
 	return
 }
