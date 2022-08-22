@@ -4,7 +4,7 @@ package main
 
 //msgp:tuple V
 type V struct {
-	Star  int32 `msg:s,omitempty`
+	Star  int32 `msg:"s,omitempty"`
 	Left  int32 `msg:"a,omitempty"`
 	Right int32 `msg:"b,omitempty"`
 }
