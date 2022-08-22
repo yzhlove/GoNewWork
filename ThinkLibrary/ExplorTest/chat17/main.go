@@ -27,7 +27,6 @@ func main() {
 
 	logger.Info("inline energy =>>> ", zap.Inline(rec.src))
 	logger.Info("inline changes =>> ", zap.Inline(rec.changes))
-
 	logger.Info("inline record ---> ", zap.Inline(rec))
 
 }
