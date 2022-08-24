@@ -8,11 +8,7 @@ import (
 	"strings"
 )
 
-// {"src.ID": 1001, "src.Ext": "energy change", "src.Handle": "energy_handle_req",
-//"changes.0.ID": 2001, "changes.0.Act": "res_1", "changes.1.ID": 2002, "changes.1.Act": "res_2", "changes.2.ID": 2003, "changes.2.Act": "res_3"}
-
 func main() {
-
 	rec := records{
 		record{
 			src: energy{
@@ -117,7 +113,7 @@ type inters []inter
 
 func (is inters) encode(prefix string, enc zapcore.ObjectEncoder) error {
 	for k, i := range is {
-		if err := i.encode(build(prefix, "change", fmt.Sprintf("%d", k)), enc); err != nil {
+		if err := i.encode(build(prefix, fmt.Sprintf("%d#change", k)), enc); err != nil {
 			return err
 		}
 	}
@@ -129,21 +125,14 @@ type record struct {
 	changes inters
 }
 
-func (r record) encode(prefix string, enc zapcore.ObjectEncoder) error {
-	if err := r.src.encode(build(prefix, "src"), enc); err != nil {
-		return err
-	}
-	if err := r.changes.encode(build(prefix, "changes"), enc); err != nil {
-		return err
-	}
-	return nil
-}
-
 type records []record
 
 func (r records) MarshalLogObject(enc zapcore.ObjectEncoder) error {
 	for k, t := range r {
-		if err := t.encode(fmt.Sprintf("%d", k), enc); err != nil {
+		if err := t.src.encode(fmt.Sprintf("%d#src", k), enc); err != nil {
+			return err
+		}
+		if err := t.changes.encode(fmt.Sprintf("%d#changes", k), enc); err != nil {
 			return err
 		}
 	}
