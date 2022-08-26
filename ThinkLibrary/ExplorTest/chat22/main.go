@@ -1,61 +1,99 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
-	"reflect"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+	"os"
 )
-
-const value = `{"0#src.id": 1001, "0#src.ext": "energy_ext", "0#src.handle": "energy_buy_req", "0#changes.0#change.id": 100, "0#changes.0#change.act": "changes_1", "0#changes.1#change.id": 200, "0#changes.1#change.act": "changes_2", "1#src.id": 2001, "1#src.ext": "energy_ext", "1#src.handle": "energy_buy_req", "1#changes.0#change.id": 2100, "1#changes.0#change.act": "changes_11", "1#changes.1#change.id": 2200, "1#changes.1#change.act": "changes_21", "2#src.id": 3001, "2#src.ext": "energy_ext", "2#src.handle": "energy_buy_req", "2#changes.0#change.id": 3100, "2#changes.0#change.act": "changes_13", "2#changes.1#change.id": 3200, "2#changes.1#change.act": "changes_23"}`
 
 func main() {
 
-	var data = make(map[string]interface{})
-
-	if err := json.Unmarshal([]byte(value), &data); err != nil {
-		panic(err)
+	rec := record{
+		src: energy{
+			id:     1001,
+			ext:    "energy",
+			handle: "energy_req",
+		},
+		changes: []inter{
+			res{
+				id:  100,
+				act: "res",
+			},
+			worldClass{
+				id:  200,
+				act: "worldClass",
+			},
+		},
 	}
 
-	for k, v := range data {
-		fmt.Println(k, " = ", v, " type=>", reflect.TypeOf(v).Name())
-	}
-
-	bytes, err := json.Marshal(data)
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println("bytes => ", string(bytes))
-
-	fmt.Println("-------------------------------------")
-	test()
+	log := logger()
+	log.Info("style", zap.Inline(rec))
 
 }
 
-type A struct {
-	Id  int
-	Ext string
+func logger() *zap.Logger {
+	encoder := zapcore.NewConsoleEncoder(zap.NewProductionEncoderConfig())
+	core := zapcore.NewCore(encoder, zapcore.AddSync(os.Stdout), zapcore.DebugLevel)
+	logger := zap.New(core)
+	return logger
 }
 
-type B struct {
-	A
-	Handle string
+type inter interface {
+	encode(prefix string, enc zapcore.ObjectEncoder) error
 }
 
-func test() {
+type energy struct {
+	id     int
+	ext    string
+	handle string
+}
 
-	str1 := "0#a.1#b.c"
+func (e energy) encode(prefix string, enc zapcore.ObjectEncoder) error {
+	enc.AddInt("id", e.id)
+	enc.AddString("ext", e.ext)
+	enc.AddString("handle", e.handle)
+	return nil
+}
 
-	str2 := "0#a@1#b.c"
+type res struct {
+	id  int
+	act string
+}
 
-	str3 := "0#src@1#B.A.Id"
+func (r res) encode(prefix string, enc zapcore.ObjectEncoder) error {
+	enc.AddInt(prefix+".res.id", r.id)
+	enc.AddString(prefix+".res.act", r.act)
+	return nil
+}
 
-	str4 := "src@1.B.A.Id@2"
+type worldClass struct {
+	id  int
+	act string
+}
 
-	str5 := "group.1 "
+func (r worldClass) encode(prefix string, enc zapcore.ObjectEncoder) error {
+	enc.AddInt(prefix+"world.id", r.id)
+	enc.AddString(prefix+"world.act", r.act)
+	return nil
+}
 
-	for i := 0; i < len(str1); i++ {
-		fmt.Printf("%c", str1[i])
+type inters []inter
+
+type record struct {
+	src     inter
+	changes inters
+}
+
+func (r record) MarshalLogObject(enc zapcore.ObjectEncoder) error {
+
+	if err := r.src.encode("src", enc); err != nil {
+		return err
 	}
 
+	for _, c := range r.changes {
+		if err := c.encode("change", enc); err != nil {
+			return err
+		}
+	}
+	return nil
 }
