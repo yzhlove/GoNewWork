@@ -48,6 +48,9 @@ func compress(data []byte) *bytes.Buffer {
 	if err != nil {
 		panic(err)
 	}
+	// 启用压缩
+	fh.Method = zip.Deflate
+
 	w, err := zw.CreateHeader(fh)
 	if err != nil {
 		panic(err)
