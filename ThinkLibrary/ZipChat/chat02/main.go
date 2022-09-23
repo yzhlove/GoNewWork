@@ -24,7 +24,7 @@ func main() {
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGUSR1, syscall.SIGUSR2)
 
-	file, err := os.Create("httpMonitor.log")
+	file, err := os.OpenFile("httpMonitor.log", os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("创建监听文件失败:%v", err)
 	}
