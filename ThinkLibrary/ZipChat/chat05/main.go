@@ -16,6 +16,17 @@ func main() {
 	binary.BigEndian.PutUint16(tb, t)
 	fmt.Println("crc32 = ", crc32.ChecksumIEEE(tb))
 
+	var vt = uint32(7)
+	fmt.Printf("%b \n", ^vt)
+
+	var a = 10
+	var b = 3
+
+	count := a / b
+	countlast := count + a%b
+
+	fmt.Println(count, countlast)
+
 }
 
 func test1() {
