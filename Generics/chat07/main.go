@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"hash/crc32"
+	"reflect"
 	"runtime"
 	"strconv"
 	"sync"
@@ -117,9 +118,10 @@ type Manager[T Reqer, V any] struct {
 func NewManager[T Reqer, V any](ctx context.Context, eventFunc func(T) V) *Manager[T, V] {
 	manager := &Manager[T, V]{ctx: ctx, eventFunc: eventFunc}
 	manager.eventQueue = make([]chan *reqPack[T, V], _MaxQueue)
+	var ct T
+	x := reflect.New(reflect.TypeOf(ct).Elem()).Interface()
 	manager.New = func() any {
-		var ct T
-		return ct.GetMemory()
+		return x
 	}
 	return manager
 }
