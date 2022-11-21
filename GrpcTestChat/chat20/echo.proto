@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option go_package = "main";
+
+message Resp {
+  oneof Err {
+    uint32 ErrCode = 1;
+    string ErrDetail = 2;
+  }
+}
+
+
+
+
+
+
