@@ -9,8 +9,8 @@ import (
 
 func ReaderSource(reader io.Reader) <-chan int {
 	var out = make(chan int)
-	var buffer = make([]byte, 8)
 	go func() {
+		var buffer = make([]byte, 8)
 		for {
 			n, err := reader.Read(buffer)
 			if err != nil {
@@ -18,6 +18,26 @@ func ReaderSource(reader io.Reader) <-chan int {
 			}
 			if n > 0 {
 				out <- int(binary.BigEndian.Uint64(buffer))
+			}
+		}
+		close(out)
+	}()
+	return out
+}
+
+func ReaderSourceAt(reader io.Reader, chunkSize int) <-chan int {
+	var out = make(chan int)
+	go func() {
+		var buf = make([]byte, 8)
+		var byteSize int
+		for {
+			n, err := reader.Read(buf)
+			if err != nil || byteSize >= chunkSize {
+				break
+			}
+			if n > 0 {
+				out <- int(binary.BigEndian.Uint64(buf))
+				byteSize += n
 			}
 		}
 		close(out)
@@ -47,7 +67,7 @@ func RandomSource(count int) <-chan int {
 	return out
 }
 
-func MemorySource(numbers <-chan int) <-chan int {
+func MemorySort(numbers <-chan int) <-chan int {
 	out := make(chan int)
 	go func() {
 		cache := make([]int, 0, 128)
@@ -80,4 +100,16 @@ func Merge(in1, in2 <-chan int) <-chan int {
 		close(out)
 	}()
 	return out
+}
+
+func MergeN(inputs ...<-chan int) <-chan int {
+	switch len(inputs) {
+	case 0:
+		panic("inputs is empty!")
+	case 1:
+		return inputs[0]
+	default:
+		x := len(inputs) / 2
+		return Merge(MergeN(inputs[:x]...), MergeN(inputs[x:]...))
+	}
 }
