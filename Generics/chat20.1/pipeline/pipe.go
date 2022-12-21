@@ -1,9 +1,12 @@
 package pipeline
 
 import (
+	"bufio"
 	"encoding/binary"
+	"fmt"
 	"io"
 	"math/rand"
+	"net"
 	"sort"
 )
 
@@ -112,4 +115,45 @@ func MergeN(inputs ...<-chan int) <-chan int {
 		x := len(inputs) / 2
 		return Merge(MergeN(inputs[:x]...), MergeN(inputs[x:]...))
 	}
+}
+
+func NetworkSink(addr string, in <-chan int) error {
+	listen, err := net.Listen("tcp", addr)
+	if err != nil {
+		return err
+	}
+	fmt.Println("listener on port:", addr)
+	go func() {
+		defer listen.Close()
+
+		conn, err := listen.Accept()
+		if err != nil {
+			panic(err)
+		}
+		defer conn.Close()
+
+		write := bufio.NewWriter(conn)
+		defer write.Flush()
+		if err = WriterSink(write, in); err != nil {
+			panic(err)
+		}
+	}()
+	return nil
+}
+
+func NetworkSource(addr string) <-chan int {
+	out := make(chan int)
+	go func() {
+		conn, err := net.Dial("tcp", addr)
+		if err != nil {
+			panic(err)
+		}
+		defer conn.Close()
+		fmt.Println("read to tcp connection by ", addr)
+		for x := range ReaderSource(conn) {
+			out <- x
+		}
+		close(out)
+	}()
+	return out
 }
