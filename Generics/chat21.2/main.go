@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"errors"
-	"fmt"
+	"go.uber.org/zap"
 	"net/http"
 	"time"
 )
@@ -16,37 +16,43 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
 	defer cancel()
 
+	log := zap.NewExample()
+
 check:
 	for {
-		select {
-		case <-ctx.Done():
-			fmt.Println("done.")
-			return
-		case <-secondTick.C:
-			fmt.Println("secondTick.")
-			if err := sync(); err != nil {
-				fmt.Println("sync error:", err)
+		if err := sync(); err != nil {
+			log.Error("sync error", zap.Error(err))
+			select {
+			case <-ctx.Done():
+				log.Debug("done", zap.String("position", "one"))
+				return
+			case <-secondTick.C:
+				log.Debug("secondTick")
 				continue check
 			}
 		}
+		log.Info("one succeed exit")
 		secondTick.Stop()
 		break
 	}
 
+	log.Info("two process join ...")
 	minuteTick.Reset(time.Second * 10)
 	for {
 		select {
 		case <-ctx.Done():
-			fmt.Println("done2.")
+			log.Debug("done2", zap.String("position", "two"))
 			return
 		case <-minuteTick.C:
-			fmt.Println("minuteTick.")
+			log.Debug("minuteTick start")
 			if err := sync(); err != nil {
-				fmt.Println("sync error:", err)
+				log.Error("sync2 error", zap.Error(err))
 
+				minuteTick.Stop()
 				secondTick.Reset(time.Second * 5)
 				goto check
 			}
+			log.Debug("minuteTick stop")
 		}
 	}
 
