@@ -1,0 +1,11 @@
+syntax="proto3";
+
+option go_package = "echo";
+
+service EchoService {
+  rpc echo(Msg.Nil) returns (Msg.Nil);
+}
+
+message Msg {
+  message Nil {}
+}
