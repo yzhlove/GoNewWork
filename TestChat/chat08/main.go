@@ -77,16 +77,16 @@ func test3() {
 			defer wg.Done()
 			for k := 0; k < 1000; k++ {
 
-				if k%20 == 0 {
-					elem.Store(&t{data: make(map[int]int, 16)})
+				if k%4 == 0 {
+					tt := &t{
+						data: make(map[int]int, 16),
+					}
+					tt.data[rand.Int()] = rand.Int()
+					elem.Store(tt)
 				}
 
 				if x, ok := elem.Load().(*t); ok {
-					x.Lock()
-					x.data[rand.Int()] = rand.Int()
-					x.Unlock()
-				} else {
-					elem.Store(&t{data: make(map[int]int, 16)})
+					_ = x.data[rand.Int()]
 				}
 			}
 		}()
