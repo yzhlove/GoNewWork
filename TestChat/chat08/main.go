@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	test2()
+	test3()
 }
 
 func test1() {
@@ -53,6 +53,40 @@ func test2() {
 					x.Unlock()
 				} else {
 					elem.Store(&a{data: make(map[int]string, 64)})
+				}
+			}
+		}()
+	}
+	wg.Wait()
+
+}
+
+func test3() {
+
+	type t struct {
+		sync.Mutex
+		data map[int]int
+	}
+
+	var elem atomic.Value
+	var wg sync.WaitGroup
+
+	for i := 0; i < 100; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for k := 0; k < 1000; k++ {
+
+				if k%20 == 0 {
+					elem.Store(&t{data: make(map[int]int, 16)})
+				}
+
+				if x, ok := elem.Load().(*t); ok {
+					x.Lock()
+					x.data[rand.Int()] = rand.Int()
+					x.Unlock()
+				} else {
+					elem.Store(&t{data: make(map[int]int, 16)})
 				}
 			}
 		}()
