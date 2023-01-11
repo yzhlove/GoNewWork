@@ -1,0 +1,949 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>    
+
+<enum name="work">
+	<item name="工人"   key="A" value="1" />
+	<item name="战士"   key="B" value="2" />
+	<item name="劳动人民"   key="C" value="3" />
+	
+</enum>
+
+
+<enum name="eHero">
+	<item name="闪电侠"   key="AA" value="1" />
+	<item name="爆热女郎"   key="BB" value="2" />
+	<item name="黏土侠"   key="CC" value="3" />
+	<item name="水泡侠"   key="DD" value="4" />
+	<item name="荒野侠"   key="EE" value="5" />
+	
+</enum>
+
+
+
+<enum name="dHero">
+	<item name="钻石人"   key="D_HERO_A" value="1" />
+	<item name="圆盘人"   key="D_HERO_B" value="2" />
+	
+</enum>
+
+
+<enum name="monsterEpicType">
+	<item name="普通"   key="NORMAL" value="5" />
+	<item name="精英"   key="ELITE" value="4" />
+	<item name="小Boss"   key="LEADER" value="3" />
+	<item name="Boss"   key="LORD" value="2" />
+	<item name="全体"   key="ALL" value="1" />
+	<item name="陷阱"   key="TRAP" value="6" />
+	
+</enum>
+
+
+<enum name="actorMovType">
+	<item name="静止"   key="STATIC" value="1" />
+	<item name="行走"   key="WALK" value="2" />
+	<item name="漂浮"   key="FLY" value="3" />
+	
+</enum>
+
+
+<enum name="skillType">
+	<item name="普攻"   key="NORMAL" value="1" />
+	<item name="技能"   key="SKILL" value="2" />
+	<item name="大招"   key="ULTIMATE" value="3" />
+	<item name="被动"   key="PASSIVE" value="4" />
+	
+</enum>
+
+
+<enum name="skinSourceType">
+	<item name="活动获得"   key="ACTIVITY" value="1" />
+	<item name="限时出售"   key="TIMELIMIT" value="2" />
+	<item name="成就获得"   key="ACHIEVEMENT" value="3" />
+	<item name="主线任务"   key="MAINTASK" value="4" />
+	<item name="地宫获得"   key="ROGUELIKE" value="5" />
+	
+</enum>
+
+
+<enum name="roguelikeLevelStyle">
+	<item name="森林"   key="FOREST" value="1" />
+	<item name="遗迹"   key="REMAINS" value="2" />
+	<item name="地牢"   key="DUNGEON" value="3" />
+	<item name="测试"   key="TEST" value="4" />
+	<item name="麦田"   key="COUNTRYSIDE" value="5" />
+	<item name="城镇1"   key="CITY_ONE" value="6" />
+	<item name="城镇2"   key="CITY_TWO" value="7" />
+	<item name="森林遗迹"   key="FORESTRUINS" value="8" />
+	<item name="森林2"   key="FOREST_TWO" value="9" />
+</enum>
+
+
+<enum name="roguelikeFloorFunction">
+	<item name="跑图"   key="THROUGH" value="1" />
+	<item name="事件"   key="MAPEVENT" value="2" />
+	<item name="Boss战"   key="BOSSFIGHT" value="3" />
+	
+</enum>
+
+
+<enum name="effectiveGoals">
+	<item name="无"   key="NONE" value="0" />
+	<item name="自己"   key="ONESELF" value="1" />
+	<item name="敌人"   key="ENEMY" value="2" />
+	<item name="小队全员"   key="FULL_TEAM" value="3" />
+	<item name="队友"   key="TEAMMATE" value="4" />
+	<item name="全部敌人"   key="FULL_ENEMY" value="5" />
+	
+</enum>
+
+
+<enum name="screen">
+	<item name="无"   key="NONE" value="0" />
+	<item name="无筛选"   key="NOTHING" value="1" />
+	<item name="被锁定的"   key="LOCKED" value="2" />
+
+</enum>
+
+
+<enum name="timeSuperposition  ">
+	<item name="不叠加"   key="DONOTSTACK" value="1" />
+	<item name="重置"   key="RESET" value="2" />
+	<item name="叠加"   key="SUPERPOSITION" value="3" />
+
+</enum>
+
+
+<enum name="timing">
+	<item name="独立计算"   key="INDEPENDENT" value="1" />
+	<item name="先来后到"   key="SEQUENCE" value="2" />
+
+
+</enum>
+
+<enum name="logicType">
+	<item name="与"   key="AND" value="1" />
+	<item name="或"   key="OR" value="2" />
+
+</enum>
+
+
+<enum name="distance">
+	<item name="近战"   key="CLOSERANGE" value="1" />
+	<item name="远程"   key="REMOTE" value="2" />
+
+</enum>
+
+
+<enum name="damageSource">
+	<item name="玩家"   key="PLAYER" value="1" />
+	<item name="怪物"   key="MONSTER" value="2" />
+	<item name="陷阱"   key="TRAP" value="3" />
+
+</enum>
+
+
+<enum name="damageType">
+	<item name="普攻"   key="NORMAL" value="1" />
+	<item name="技能"   key="SKILL" value="2" />
+	<item name="大招"   key="ULTIMATE" value="3" />
+	<item name="其他"   key="OTHER" value="4" />
+
+</enum>
+
+
+<enum name="damageEffect">
+	<item name="物理"   key="PHYSICS" value="1" />
+	<item name="法术"   key="MAGIC" value="2" />
+	<item name="治疗"   key="CURE" value="3" />
+	<item name="真实"   key="REAL" value="4" />
+	<item name="无"   key="NONE" value="5" />
+
+</enum>
+
+
+<enum name="skillSlotType">
+	<item name="无"   key="NONE" value="0" />
+	<item name="闪避"   key="A" value="1" />
+	<item name="技能1"   key="B" value="2" />
+	<item name="技能2"   key="C" value="3" />
+	<item name="大招"   key="D" value="4" />
+	<item name="普攻"   key="NORMAL" value="5" />
+
+</enum>
+
+
+<enum name="otherSources">
+	<item name="自身"   key="ONESELF" value="1" />
+	<item name="敌人"   key="ENEMY" value="2" />
+
+
+</enum>
+
+
+<enum name="diffculty">
+	<item name="普通"   key="NORMAL" value="1" />
+	<item name="困难"   key="HARD" value="2" />
+	<item name="梦靥"   key="NIGHTMARE" value="3" />
+	<item name="地狱"   key="HELL" value="4" />
+
+</enum>
+
+
+<enum name="monsterBloodType">
+	<item name="不显示"   key="NONE" value="0" />
+	<item name="简易"   key="SIMPLE" value="1" />
+	<item name="高级"   key="ADVANCE" value="2" />
+	<item name="Boss"   key="BOSS" value="3" />
+
+</enum>
+
+
+<enum name="worldLevelType">
+	<item name="主线"   key="Mainline" value="1" />
+	<item name="随机"   key="Roguelike" value="2" />
+	<item name="支线"   key="Branchline" value="3" />
+	<item name="地区boss"   key="RegionBoss" value="4" />
+	<item name="固定随机"   key="FixedRoguelike" value="5" />
+	<item name="序章"   key="Prologue" value="6" />
+
+</enum>
+
+
+<enum name="mainLineType">
+	<item name="主线"   key="Mainline" value="1" />
+	<item name="支线"   key="Branchline" value="2" />
+
+</enum>
+
+
+<enum name="hurtEffetType">
+	<item name="无"   key="NONE" value="0" />
+	<item name="抖动"   key="SHAKE" value="1" />
+	<item name="闪白"   key="FLASHTINT" value="2" />
+	<item name="全部"   key="ALL" value="3" />
+
+</enum>
+
+
+<enum name="actorGroupType">
+	<item name="玩家"   key="PLAYER" value="1" />
+	<item name="怪物"   key="MONSTER" value="2" />
+	<item name="陷阱"   key="TRAP" value="3" />
+
+</enum>
+
+
+<enum name="shieldtype">
+	<item name="抵消盾"   key="noDmgHp" value="1" />
+	<item name="穿透盾"   key="DmgHp" value="2" />
+
+
+</enum>
+
+
+<enum name="referencetarget">
+	<item name="释放者"   key="Self" value="1" />
+	<item name="受益者"   key="Target" value="2" />
+
+
+</enum>
+
+
+<enum name="referenceattrib">
+	<item name="最大生命"   key="Hp" value="1" />
+	<item name="攻击"   key="Atk" value="2" />
+
+
+</enum>
+
+
+<enum name="subMapName">
+	<item name="雷霆崖"   key="ThunderBluff" value="1" />
+	<item name="奥格瑞玛"   key="Orgrimmar" value="2" />
+	<item name="贫瘠之地"   key="Barrens" value="3" />
+	<item name="东瘟疫之地"   key="EasternPlaguelands" value="4" />
+
+
+</enum>
+
+
+<enum name="monsterAIBranchActiveConditionType">
+	<item name="无"   key="NONE" value="0" />
+	<item name="血量百分比大于等于"   key="HP_PER_MORE_OR_EQUAL" value="1" />
+	<item name="血量百分比小于"   key="HP_PER_LESS" value="2" />
+	<item name="目标距离大于等于"   key="TARGET_DISTANCE_GREATER_OR_EQU" value="3" />
+	<item name="目标距离小于"   key="TARGET_DISTANCE_LESS" value="4" />
+	<item name="坐标距离大于等于"   key="POSITION_DISTANCE_GREATER_OR_EQU" value="5" />
+	<item name="坐标距离小于"   key="POSITION_DISTANCE_LESS" value="6" />
+
+</enum>
+
+
+<enum name="jumpType">
+	<item name="关卡"   key="Mainline" value="1" />
+	<item name="遗迹"   key="Rogue" value="2" />
+	<item name="遗迹组"   key="RogueGroup" value="3" />
+	<item name="区域BOSS"   key="RegionBoss" value="4" />
+	<item name="区域BOSS组"   key="RegionBossGroup" value="5" />
+	<item name="文本"   key="Text" value="6" />
+	<item name="世界地图"   key="Map" value="7" />
+
+</enum>
+
+
+<enum name="characterSearchTargetType">
+	<item name="近战"   key="MELEE" value="1" />
+	<item name="远程"   key="RANGED" value="2" />
+
+</enum>
+
+
+<enum name="guidetype">
+	<item name="强制点击型"   key="ForcedClick" value="1" />
+	<item name="介绍型"   key="Introductory" value="2" />
+	<item name="弹出图片型"   key="PopPicture" value="3" />
+
+
+</enum>
+
+
+<enum name="guideprepose">
+	<item name="完成指引"   key="PreGuide" value="1" />
+	<item name="世界等级"   key="WorldClass" value="2" />
+	<item name="完成关卡"   key="FinishDungeon" value="3" />
+
+</enum>
+
+
+<enum name="guidetrigger">
+	<item name="完成指引"   key="PreGuide" value="1" />
+	<item name="世界等级"   key="WorldClass" value="2" />
+	<item name="打开界面"   key="OpenInterface" value="3" />
+	<item name="完成上一步"   key="FinishLastStep" value="4" />
+	<item name="完成关卡"   key="FinishDungeon" value="5" />
+
+</enum>
+
+
+<enum name="endtype">
+	<item name="强制引导"   key="ForceGuide" value="1" />
+	<item name="非强制引导"   key="UnforceGuide" value="2" />
+
+</enum>
+
+
+<enum name="fixedRoguelikeFunc0">
+	<item name="战斗"   key="Battle" value="1" />
+	<item name="Boss战"   key="Boss" value="2" />
+
+</enum>
+
+
+<enum name="fixedRoguelikeFunc1">
+	<item name="普通挑战"   key="CommonChallenge" value="31" />
+	<item name="生存挑战"   key="LiveChallenge" value="32" />
+	<item name="MiniBoss挑战"   key="MiniBossChallenge" value="33" />
+	<item name="无主的财富_怪物型"   key="Monster" value="101" />
+	<item name="无主的财富_宝箱型"   key="Treasure" value="102" />
+
+</enum>
+
+
+<enum name="fixedRoguelikePortDir">
+	<item name="左"   key="Left" value="1" />
+	<item name="右"   key="Right" value="2" />
+
+</enum>
+
+
+<enum name="levelState">
+	<item name="失败"   key="Failed" value="1" />
+	<item name="完成"   key="Success" value="2" />
+	<item name="下一个房间"   key="Teleporter" value="3" />
+
+</enum>
+
+
+<enum name="specificCombatType">
+	<item name="限时挑战"   key="Timelimited" value="1" />
+	<item name="盗宝哥布林"   key="RobberGoblin" value="2" />
+	<item name="免受伤害"   key="EscapeInjury" value="3" />
+	<item name="连续击杀"   key="ContinuousKilling" value="4" />
+
+
+</enum>
+
+
+<enum name="npcType">
+	<item name="天赋"   key="Talent" value="1" />
+	<item name="福利房"   key="RewardRoom" value="2" />
+	<item name="商店"   key="shop" value="3" />
+
+</enum>
+
+
+<enum name="areaEffectType">
+	<item name="通用区域效果"   key="TriggerAreaObj" value="1" />
+	<item name="风墙"   key="TriggerWindWall" value="2" />
+	<item name="扩散型区域效果"   key="DiffuseArea" value="3" />
+	<item name="持续牵引型区域效果"   key="PullArea" value="4" />
+
+</enum>
+
+
+<enum name="characterGrade">
+	<item name="SSR"   key="SSR" value="1" />
+	<item name="SR"   key="SR" value="2" />
+	<item name="R"   key="R" value="3" />
+
+</enum>
+
+
+<enum name="characterJobClass">
+	<item name="近程输出"   key="MELEEATTACK" value="1" />
+	<item name="远程输出"   key="RANGEATTACK" value="2" />
+	<item name="近程辅助"   key="MELEESUPPORT" value="3" />
+	<item name="远程辅助"   key="RANGESUPPORT" value="4" />
+
+</enum>
+
+
+<enum name="talentType">
+	<item name="技能天赋"   key="SKILL" value="1" />
+	<item name="战斗天赋"   key="BATTLE" value="2" />
+	<item name="属性天赋"   key="ATTRIBUTE" value="3" />
+	<item name="特殊天赋"   key="SPECIAL" value="4" />
+
+
+</enum>
+
+
+<enum name="shopRefreshTimeType">
+	<item name="日"   key="DAY" value="1" />
+	<item name="周"   key="WEEK" value="2" />
+	<item name="月"   key="MONTH" value="3" />
+
+
+</enum>
+
+
+<enum name="itemType">
+	<item name="资源"   key="Res" value="1" />
+	<item name="道具"   key="Item" value="2" />
+	<item name="角色"   key="Char" value="3" />
+	<item name="体力"   key="Energy" value="4" />
+	<item name="世界等级经验"   key="WorldRankExp" value="5" />
+	<item name="遗迹道具"   key="RogueItem" value="6" />
+	<item name="心相风景"   key="Outfit" value="7" />
+	<item name="礼物道具"   key="Presents" value="8" />
+
+</enum>
+
+
+<enum name="expireType">
+	<item name="固定时间"   key="ExpireMin" value="1" />
+	<item name="指定天数"   key="ExpireDay" value="2" />
+	<item name="指定周数"   key="ExpireWeek" value="3" />
+
+</enum>
+
+
+<enum name="useMode">
+	<item name="手动使用"   key="UseModeManual" value="1" />
+	<item name="自动使用"   key="UseModeAuto" value="2" />
+	<item name="不可使用"   key="UseModeNot" value="3" />
+
+</enum>
+
+
+<enum name="useAction">
+	<item name="掉落"   key="Drop" value="1" />
+	<item name="获得物品"   key="Item" value="2" />
+	<item name="自选"   key="Pick" value="3" />
+	<item name="不可使用"   key="No" value="4" />
+
+</enum>
+
+
+<enum name="questType">
+	<item name="主线"   key="Mainline" value="0" />
+	<item name="新手"   key="New" value="1" />
+	<item name="日常"   key="Daily" value="2" />
+	<item name="周常"   key="Weekly" value="3" />
+	<item name="月常"   key="Monthly" value="4" />
+	<item name="天赋"   key="Talent" value="5" />
+	<item name="成就"   key="Achieve" value="6" />
+
+</enum>
+
+
+<enum name="questAcceptCond">
+	<item name="通关主线星数"   key="MainLineStar" value="1" />
+	<item name="任务ID"   key="PreQuestId" value="2" />
+	<item name="世界等级"   key="WorldClass" value="3" />
+	<item name="购买指定商店指定格子物品"   key="BuyGridGoods" value="4" />
+	<item name="通关主线关卡"   key="MainLineStage" value="19" />
+	<item name="角色数量达到指定等级"   key="CharacterRank" value="20" />
+	<item name="通关地区Boss关卡"   key="RegionBossLevel" value="23" />
+
+</enum>
+
+
+<enum name="shopCond">
+	<item name="通关主线星数"   key="MainLineStar" value="1" />
+	<item name="任务ID"   key="PreQuestId" value="2" />
+	<item name="世界等级"   key="WorldClass" value="3" />
+	<item name="购买指定商店指定格子物品"   key="BuyGridGoods" value="4" />
+
+
+</enum>
+
+
+<enum name="elementType">
+	<item name="无"   key="NONE" value="0" />
+	<item name="水"   key="WE" value="1" />
+	<item name="火"   key="FE" value="2" />
+	<item name="土"   key="SE" value="3" />
+	<item name="风"   key="AE" value="4" />
+	<item name="光"   key="LE" value="5" />
+	<item name="暗"   key="DE" value="6" />
+
+</enum>
+
+
+<enum name="itemRarity">
+	<item name="史诗（彩）"   key="SSR" value="1" />
+	<item name="精英（橙）"   key="SR" value="2" />
+	<item name="稀有（蓝）"   key="R" value="3" />
+	<item name="优秀（绿）"   key="M" value="4" />
+	<item name="普通（白）"   key="N" value="5" />
+
+</enum>
+
+
+<enum name="perkType">
+	<item name="一般通用"   key="Normal" value="0" />
+	<item name="通用礼物"   key="Presents" value="1" />
+	<item name="遗迹绑定"   key="Roguelike" value="2" />
+	<item name="战术信条"   key="Tactics" value="3" />
+	<item name="专属信条"   key="Exclusive" value="4" />
+	<item name="增益信条"   key="Buff" value="5" />
+	<item name="回复信条"   key="Recover" value="6" />
+
+</enum>
+
+
+<enum name="delayEventType">
+	<item name="发邮件"   key="SendMail" value="0" />
+
+</enum>
+
+
+<enum name="rglStage">
+	<item name="第一阶段"   key="FirstStage" value="1" />
+	<item name="第二阶段"   key="SecondStage" value="2" />
+	<item name="第三阶段"   key="ThirdStage" value="3" />
+
+</enum>
+
+
+<enum name="rglShopGoodsType">
+	<item name="信条"   key="Perk" value="1" />
+	<item name="天赋"   key="Talent" value="2" />
+
+</enum>
+
+
+<enum name="rglRoomType">
+	<item name="出发房间"   key="StartingRoom" value="1" />
+	<item name="普通战斗"   key="Normal" value="2" />
+	<item name="精英战斗"   key="Hard" value="3" />
+	<item name="挑战房"   key="Challenge" value="4" />
+	<item name="Boss"   key="Boss" value="5" />
+	<item name="补给房"   key="SupplyRoom" value="6" />
+	<item name="固定商店"   key="FixedShop" value="7" />
+	<item name="随机商店"   key="RandomShop" value="8" />
+	<item name="任务房"   key="QuestRoom" value="9" />
+	<item name="福利房"   key="Welfare" value="10" />
+	<item name="无主的财富"   key="Treasure" value="11" />
+
+</enum>
+
+
+<enum name="rglAwardType">
+	<item name="混池信条三选一"   key="InteriorThreeOptions" value="1" />
+	<item name="1号位角色专属信条"   key="InteriorExclusivePerkOf1" value="2" />
+	<item name="2号位角色专属信条"   key="InteriorExclusivePerkOf2" value="3" />
+	<item name="3号位角色专属信条"   key="InteriorExclusivePerkOf3" value="4" />
+	<item name="增益信条"   key="InteriorBuffPerk" value="5" />
+	<item name="内部货币"   key="InteriorInteriorCurrency" value="6" />
+	<item name="天赋素材代币"   key="ExternalTalentMaterialCurrency" value="7" />
+	<item name="礼物代币"   key="ExternalPresentsCurrency" value="8" />
+	<item name="礼装代币"   key="ExternalOutfitCurrency" value="9" />
+	<item name="礼装升阶素材代币"   key="ExternalOutfitMaterialCurrency" value="10" />
+
+</enum>
+
+
+<enum name="questCompleteCond">
+	<item name="通关主线星数"   key="MainLineStar" value="1" />
+	<item name="任务ID"   key="PreQuestId" value="2" />
+	<item name="世界等级"   key="WorldClass" value="3" />
+	<item name="购买指定商店指定格子物品"   key="BuyGridGoods" value="4" />
+	<item name="累计战斗次数"   key="Battle" value="5" />
+	<item name="指定战斗人员累计战斗次数"   key="BattleWithPartner" value="6" />
+	<item name="累计登陆次数"   key="LoginTotal" value="7" />
+	<item name="购买任意物品"   key="BuyGoods" value="8" />
+	<item name="体力消耗"   key="EnergyDeplete" value="9" />
+	<item name="通关主线"   key="MainLine" value="10" />
+	<item name="天赋激活"   key="TalentActivate" value="11" />
+	<item name="购买指定物品"   key="BuyGoodsType" value="12" />
+	<item name="首次通关遗迹"   key="RoguelikeFirstPassed" value="13" />
+	<item name="抽卡"   key="GachaTotal" value="14" />
+	<item name="通关遗迹"   key="RoguelikePassed" value="15" />
+	<item name="遗迹击杀BOSS次数"   key="RoguelikeBossKillTotal" value="16" />
+	<item name="遗迹击杀精英怪数量"   key="RoguelikeEliteKillTotal" value="17" />
+	<item name="遗迹击杀小怪数量"   key="RoguelikeOrdinaryKillTotal" value="18" />
+	<item name="通关主线关卡"   key="MainLineStage" value="19" />
+	<item name="角色数量达到指定等级"   key="CharacterRank" value="20" />
+	<item name="道具消耗"   key="ItemsDeplete" value="21" />
+	<item name="道具补充"   key="ItemsAdded" value="22" />
+	<item name="通关地区Boss关卡"   key="RegionBossLevelPassed" value="23" />
+	<item name="通关指定ID地区Boss关卡"   key="RegionBossLevelBossId" value="24" />
+	<item name="通关指定ID指定难度地区Boss关卡"   key="RegionBossLevelDifficultBossId" value="25" />
+	<item name="通关指定ID的遗迹"   key="RoguelikeIdPassed" value="26" />
+	<item name="通过指定遗迹ID的指定层数"   key="RoguelikeIdFloorPassed" value="27" />
+	<item name="累计消耗体力值"   key="EnergyConsumption" value="28" />
+	<item name="获得指定个数的指定稀有度的礼装"   key="OutfitGet" value="29" />
+	<item name="获得指定个数的指定级别的指定稀有度的礼装"   key="OutfitGetLevel" value="30" />
+	<item name="获得指定个数的指定品阶的指定稀有度的礼装"   key="OutfitGetPhase" value="31" />
+	<item name="获得指定个数的指定星级的指定稀有度的礼装"   key="OutfitGetStar" value="32" />
+	<item name="穿戴指定次数礼装"   key="OutfitInstall" value="33" />
+	<item name="突破指定次数礼装"   key="OutfitLimitBreak" value="34" />
+	<item name="升阶指定次数礼装"   key="OutfitPromote" value="35" />
+	<item name="强化指定次数礼装"   key="OutfitStrengthen" value="36" />
+	<item name="完成指定任务类型次数"   key="PreQuestType" value="37" />
+
+</enum>
+
+
+<enum name="monsterAIBranchFollowEventType">
+	<item name="无"   key="NONE" value="0" />
+	<item name="沉睡指定id的AI"   key="DEACTIVE_CERTAIN_ID_AI" value="1" />
+	<item name="激活指定id的AI"   key="ACTIVE_CERTAIN_ID_AI" value="2" />
+	<item name="沉睡指定组id的AI"   key="DEACTIVE_CERTAIN_GROUPID_AI" value="3" />
+	<item name="激活指定组id的AI"   key="ACTIVE_CERTAIN_GROUPID_AI" value="4" />
+	<item name="执行指定id的AI"   key="EXECUTE_CERTAIN_ID_AI" value="5" />
+	<item name="关闭指定id的AI"   key="CLOSE_CERTAIN_ID_AI" value="6" />
+	<item name="开启指定id的AI"   key="OPEN_CERTAIN_ID_AI" value="7" />
+	<item name="关闭指定组id的AI"   key="CLOSE_CERTAIN_GROUPID_AI" value="8" />
+	<item name="开启指定组id的AI"   key="OPEN_CERTAIN_GROUPID_AI" value="9" />
+	<item name="强制执行指定id的AI"   key="FORCE_EXECUTE_CERTAIN_ID_AI" value="10" />
+	<item name="指定id的AI进入CD"   key="CERTAIN_ID_AI_BEGIN_CD" value="11" />
+
+</enum>
+
+
+<enum name="attribute">
+	<item name="无"   key="NONE" value="0" />
+	<item name="攻击力"   key="Atk" value="1" />
+	<item name="最大生命"   key="Hp" value="2" />
+	<item name="物理防御"   key="Def" value="3" />
+	<item name="法术防御"   key="Mdef" value="4" />
+	<item name="暴击率"   key="CritRate" value="5" />
+	<item name="暴击抵抗率"   key="CritResistance" value="6" />
+	<item name="暴击伤害百分比修正"   key="CritPower" value="7" />
+	<item name="命中率"   key="HitRate" value="8" />
+	<item name="回避值"   key="Evd" value="9" />
+	<item name="穿透值"   key="Pierce" value="10" />
+	<item name="水元素专精"   key="WEE" value="11" />
+	<item name="火元素专精"   key="FEE" value="12" />
+	<item name="土元素专精"   key="SEE" value="13" />
+	<item name="风元素专精"   key="AEE" value="14" />
+	<item name="光元素专精"   key="LEE" value="15" />
+	<item name="暗元素专精"   key="DEE" value="16" />
+	<item name="水元素抗性"   key="WER" value="17" />
+	<item name="火元素抗性"   key="FER" value="18" />
+	<item name="土元素抗性"   key="SER" value="19" />
+	<item name="风元素抗性"   key="AER" value="20" />
+	<item name="光元素抗性"   key="LER" value="21" />
+	<item name="暗元素抗性"   key="DER" value="22" />
+	<item name="重量"   key="weight" value="23" />
+
+</enum>
+
+
+
+<enum name="effectAttributeType">
+	<item name="无"   key="NONE" value="0" />
+	<item name="攻击力百分比"   key="ATK_P" value="1" />
+	<item name="攻击力绝对值"   key="ATK_A" value="2" />
+	<item name="基础物理防御"   key="DEF" value="3" />
+	<item name="物理防御百分比"   key="DEF_P" value="4" />
+	<item name="物理防御绝对值"   key="DEF_A" value="5" />
+	<item name="基础法术防御"   key="MDEF" value="6" />
+	<item name="法术防御百分比"   key="MDEF_P" value="7" />
+	<item name="法术防御绝对值"   key="MDEF_A" value="8" />
+	<item name="基础命中率"   key="HITRATE" value="9" />
+	<item name="基础回避率"   key="EVD" value="10" />
+	<item name="基础暴击率"   key="CRITRATE" value="11" />
+	<item name="基础暴击抵抗率"   key="CRITRESIST" value="12" />
+	<item name="暴击伤害百分比"   key="CRITPOWER_P" value="13" />
+	<item name="普攻施法速度百分比"   key="ATKSPD_P" value="14" />
+	<item name="穿透值"   key="PENETRATE" value="15" />
+	<item name="水元素抗性"   key="WER" value="16" />
+	<item name="火元素抗性"   key="FER" value="17" />
+	<item name="土元素抗性"   key="SER" value="18" />
+	<item name="风元素抗性"   key="AER" value="19" />
+	<item name="光元素抗性"   key="LER" value="20" />
+	<item name="暗元素抗性"   key="DER" value="21" />
+	<item name="水元素专精"   key="WEE" value="22" />
+	<item name="火元素专精"   key="FEE" value="23" />
+	<item name="土元素专精"   key="SEE" value="24" />
+	<item name="风元素专精"   key="AEE" value="25" />
+	<item name="光元素专精"   key="LEE" value="26" />
+	<item name="暗元素专精"   key="DEE" value="27" />
+	<item name="攻方最终伤害百分比"   key="A_FINALDAMAGEUP_P" value="28" />
+	<item name="守方最终伤害百分比"   key="D_FINALDAMAGEUP_P" value="29" />
+	<item name="攻方最终伤害绝对值"   key="A_FINALDAMAGEUP_A" value="30" />
+	<item name="守方最终伤害绝对值"   key="D_FINALDAMAGEUP_A" value="31" />
+	<item name="基础最大生命值"   key="MAXHP" value="32" />
+	<item name="最大生命值百分比"   key="MAXHP_P" value="33" />
+	<item name="最大生命值绝对值"   key="MAXHP_A" value="34" />
+	<item name="基础攻击力"   key="ATK" value="35" />
+	<item name="专有元素属性专精"   key="EET" value="36" />
+	<item name="所有元素抗性"   key="EER" value="37" />
+	<item name="武器攻击力"   key="ATK_WEAPON " value="38" />
+	<item name="武器攻击力百分比"   key="ATK_WEAPON_P" value="39" />
+	<item name="武器攻击力绝对值"   key="ATK_WEAPON_A" value="40" />
+	<item name="总攻击力"   key="ATK_ALL" value="41" />
+	<item name="总攻击力百分比"   key="ATK_ALL_P" value="42" />
+	<item name="总攻击力绝对值"   key="ATK_ALL_A" value="43" />
+	<item name="水元素穿透"   key="WEP" value="44" />
+	<item name="火元素穿透"   key="FEP" value="45" />
+	<item name="土元素穿透"   key="SEP" value="46" />
+	<item name="风元素穿透"   key="AEP" value="47" />
+	<item name="光元素穿透"   key="LEP" value="48" />
+	<item name="暗元素穿透"   key="DEP" value="49" />
+	<item name="所有元素穿透"   key="ALL_EP" value="50" />
+	<item name="穿透值百分比修正"   key="PENETRATE_P" value="51" />
+	<item name="水元素穿透百分比修正"   key="WEP_P" value="52" />
+	<item name="火元素穿透百分比修正"   key="FEP_P" value="53" />
+	<item name="土元素穿透百分比修正"   key="SEP_P" value="54" />
+	<item name="风元素穿透百分比修正"   key="AEP_P" value="55" />
+	<item name="光元素穿透百分比修正"   key="LEP_P" value="56" />
+	<item name="暗元素穿透百分比修正"   key="DEP_P" value="57" />
+	<item name="所有元素穿透百分比修正"   key="ALL_EP_P" value="58" />
+
+</enum>
+
+
+<enum name="trigger">
+	<item name="无"   key="NONE" value="0" />
+	<item name="无条件"   key="NOTHING" value="1" />
+	<item name="击中时"   key="HITTING" value="2" />
+	<item name="被击中时"   key="BEHIT" value="3" />
+	<item name="击杀敌人时"   key="KILLENEMY" value="4" />
+	<item name="造成暴击时"   key="CRIT" value="5" />
+	<item name="释放技能时"   key="CASTSKILL" value="6" />
+	<item name="获得特定buff时"   key="GETBUFF" value="7" />
+	<item name="特定buff消失时"   key="REMOVEBUFF" value="8" />
+	<item name="入场时"   key="ENTERBATTLE" value="9" />
+	<item name="离场时"   key="LEAVEBATTLE" value="10" />
+	<item name="被暴击时"   key="BECRIT" value="11" />
+	<item name="开始换弹时"   key="BEGIN_RELOAD" value="12" />
+	<item name="换弹完成时"   key="FINISH_RELOAD" value="13" />
+	<item name="击破所有护盾时"   key="BREAKALLSHIELD" value="14" />
+	<item name="所有护盾被击破时"   key="BEBREAKALLSHIELD" value="15" />
+	<item name="指定护盾被击破时"   key="BEBREAKCERTAINSHIELD" value="16" />
+	<item name="指定护盾正常消失时"   key="CERTAINSHIELDTIMEOUT" value="17" />
+	<item name="效果执行时"   key="EFFECT_EXECUTE" value="18" />
+	<item name="指定间隔触发"   key="CERTAIN_TIME_INTERVAL" value="19" />
+	<item name="技能释放完成时触发"   key="CASTSKILLEND" value="20" />
+	<item name="血量变化时"   key="HP_CHANGE" value="21" />
+	<item name="免疫死亡时触发"   key="ON_IMMUNE_DEAD" value="22" />
+	<item name="伤害会导致死亡时触发"   key="DAMAGE_CAUSE_DEAD" value="23" />
+	<item name="极限闪避时"   key="PERFECT_DODGE" value="24" />
+	<item name="战斗胜利时"   key="BATTLE_WIN" value="25" />
+	<item name="手动切换上场"   key="SWICH_PLAYER" value="26" />
+
+</enum>
+
+
+<enum name="takeEffect">
+	<item name="无"   key="NONE" value="0" />
+	<item name="默认"   key="DEFAULT" value="1" />
+	<item name="生命高于"   key="HEALTHUP" value="2" />
+	<item name="生命低于"   key="HEALTHDOWN" value="3" />
+	<item name="携带IDBuff"   key="CARRYBUFFID" value="4" />
+	<item name="携带组Buff"   key="CARRYBUFFGROUP" value="5" />
+	<item name="携带标识Buff"   key="CARRYBUFFIDENTIFYING" value="6" />
+	<item name="指定技能槽位"   key="SKILLSLOTTYPE" value="7" />
+	<item name="指定伤害元素类型"   key="HITELEMENTTYPE" value="8" />
+	<item name="指定攻击类型"   key="DISTANCETYPE" value="9" />
+	<item name="指定角色元素类型"   key="ACTORELEMENTTYPE" value="10" />
+	<item name="指定BUFFID"   key="CERTAINBUFFID" value="11" />
+	<item name="指定BUFF组ID"   key="CERTAINBUFFGROUPID" value="12" />
+	<item name="指定BUFF标识"   key="CERTAINBUFFTAG" value="13" />
+	<item name="指定护盾ID"   key="CERTAINSHIELDID" value="14" />
+	<item name="附近人数多于"   key="NEARBY_ACTOR_LARGE_OR_EQUAL" value="15" />
+	<item name="附近人数少于"   key="NEARBY_ACTOR_LESS_OR_EQUAL" value="16" />
+	<item name="指定技能ID"   key="CERTAIN_SKILL_ID" value="17" />
+	<item name="有护盾"   key="HAVE_SHIELD" value="18" />
+	<item name="无护盾"   key="NO_SHIELD" value="19" />
+	<item name="不在场上"   key="LEAVE_STAGE" value="20" />
+	<item name="同时命中敌人多于"   key="HIT_TARGET_MOREOREQUAL_THAN" value="21" />
+	<item name="同时命中敌人少于"   key="HIT_TARGET_LESSOREQUAL_THAN" value="22" />
+	<item name="BUFF叠加层数 "   key=" BUFF_NUM " value="23" />
+	<item name="概率高于 "   key=" PROBOBILITY_UP " value="24" />
+	<item name="指定关卡类型"   key="CERTAIN_LEVEL_TYPE" value="25" />
+	<item name="指定效果ID"   key="CERTAIN_EFFECT_ID" value="26" />
+	<item name="指定效果TAG"   key="CERTAIN_EFFECT_TAG" value="27" />
+	<item name="指定怪物阶层"   key="CERTAIN_MONSTER_EPICTYPE" value="28" />
+	<item name="间隔时间"   key="TIME_INTERVAL" value="29" />
+	<item name="指定职业"   key="CHARACTER_JOBCLASS" value="30" />
+	<item name="指定关卡主题"   key="ROGUELIKE_LEVELSTYLE" value="31" />
+	<item name="指定怪物标签"   key="CERTAIN_MONSTER_TAG" value="32" />
+	<item name="目标包含指定标签"   key="TARGET_CONTAIN_TAG" value="33" />
+	<item name="伤害包含指定标签"   key="DAMAGE_CONTAIN_TAG" value="34" />
+	<item name="与目标距离小于"   key="DISTANCE_LESSOREQUAL_THAN" value="35" />
+	<item name="与目标距离大于"   key="DISTANCE_MOREOREQUAL_THAN" value="36" />
+
+</enum>
+
+
+<enum name="effectType">
+	<item name="添加护盾"   key="ADD_S" value="1" />
+	<item name="混乱"   key="CHAOS" value="2" />
+	<item name="霸体"   key="SUA" value="3" />
+	<item name="物理防御百分比修正"   key="DEF_P" value="4" />
+	<item name="物理防御绝对值修正"   key="DEF_A" value="5" />
+	<item name="基础法术防御"   key="MDEF" value="6" />
+	<item name="法术防御百分比修正"   key="MDEF_P" value="7" />
+	<item name="法术防御绝对值修正"   key="MDEF_A" value="8" />
+	<item name="基础命中率"   key="HITRATE" value="9" />
+	<item name="基础回避率"   key="EVD" value="10" />
+	<item name="基础暴击率"   key="CRITRATE" value="11" />
+	<item name="基础暴击抵抗率"   key="CRITRESIST" value="12" />
+	<item name="暴击伤害百分比修正"   key="CRITPOWER_P" value="13" />
+	<item name="普攻施法速度百分比修正"   key="ATKSPD_P" value="14" />
+	<item name="穿透值"   key="PENETRATE" value="15" />
+	<item name="水元素抗性"   key="WER" value="16" />
+	<item name="火元素抗性"   key="FER" value="17" />
+	<item name="土元素抗性"   key="SER" value="18" />
+	<item name="风元素抗性"   key="AER" value="19" />
+	<item name="光元素抗性"   key="LER" value="20" />
+	<item name="暗元素抗性"   key="DER" value="21" />
+	<item name="水元素专精"   key="WEE" value="22" />
+	<item name="火元素专精"   key="FEE" value="23" />
+	<item name="土元素专精"   key="SEE" value="24" />
+	<item name="风元素专精"   key="AEE" value="25" />
+	<item name="光元素专精"   key="LEE" value="26" />
+	<item name="暗元素专精"   key="DEE" value="27" />
+	<item name="攻方最终伤害百分比改变"   key="A_FINALDAMAGEUP_P" value="28" />
+	<item name="守方最终伤害百分比改变"   key="D_FINALDAMAGEUP_P" value="29" />
+	<item name="攻方最终伤害绝对值改变"   key="A_FINALDAMAGEUP_A" value="30" />
+	<item name="守方最终伤害绝对值改变"   key="D_FINALDAMAGEUP_A" value="31" />
+	<item name="技能冷却当前时间百分比修正"   key="CURRENTCD_P" value="32" />
+	<item name="技能冷却当前时间绝对值修正"   key="CURRENTCD_A" value="33" />
+	<item name="技能冷却最大值百分比修正"   key="CD_P" value="34" />
+	<item name="技能冷却最大值绝对值修正"   key="CD_A" value="35" />
+	<item name="持续伤害"   key="DOT" value="36" />
+	<item name="改变目标移动速度"   key="MOVESPEED" value="37" />
+	<item name="冰冻"   key="FROZEN" value="38" />
+	<item name="眩晕"   key="STUN" value="39" />
+	<item name="添加Buff"   key="ADDBUFF" value="40" />
+	<item name="基础最大生命值"   key="MAXHP" value="41" />
+	<item name="最大生命值百分比修正"   key="MAXHP_P" value="42" />
+	<item name="最大生命值绝对值修正"   key="MAXHP_A" value="43" />
+	<item name="基础攻击力"   key="ATK" value="44" />
+	<item name="专有元素属性专精"   key="EET" value="45" />
+	<item name="所有元素抗性"   key="EER" value="46" />
+	<item name="提升技能等级"   key="ADD_SKILL_LV" value="47" />
+	<item name="提升技能等级至"   key="SET_SKILL_LV" value="48" />
+	<item name="免疫Buff"   key="IMM_BUFF" value="49" />
+	<item name="伤害免疫"   key="DAMAGE_IMM" value="50" />
+	<item name="武器攻击力"   key="ATK_WEAPON " value="51" />
+	<item name="武器攻击力百分比修正"   key="ATK_WEAPON_P" value="52" />
+	<item name="武器攻击力绝对值修正"   key="ATK_WEAPON_A" value="53" />
+	<item name="总攻击力"   key="ATK_ALL" value="54" />
+	<item name="总攻击力百分比修正"   key="ATK_ALL_P" value="55" />
+	<item name="总攻击力绝对值修正"   key="ATK_ALL_A" value="56" />
+	<item name="束缚"   key="Bondage" value="57" />
+	<item name="释放被动技能"   key="PASSIVE_SKILL" value="58" />
+	<item name="无法选定"   key="SEARCHED_IMMUNITY" value="59" />
+	<item name="隐藏模型"   key="HIDE_MODEL" value="60" />
+	<item name="暂停移动阻挡"   key="PAUSE_MOVE_BLOCK" value="61" />
+	<item name="潜行"   key="SNEAK" value="62" />
+	<item name="无敌"   key="INVINCIBLE" value="63" />
+	<item name="技能伤害提升系数修正"   key="SKILLDAMAGEUP" value="64" />
+	<item name="增加技能使用层数"   key="ADDSKILLAMOUNT" value="65" />
+	<item name="恢复技能最大使用层数"   key="RESUMSKILLAMOUNT" value="66" />
+	<item name="基础属性修改"   key="ATTR_FIX" value="67" />
+	<item name="大招能量修正"   key="ENERGY_AMEND" value="68" />
+	<item name="大招能量获取修正"   key="ADD_ENERGY_AMEND" value="69" />
+	<item name="弹夹容量修正"   key="AMMO_MAX_AMEND" value="70" />
+	<item name="换弹速度百分比修正"   key="RELOAD_SPD_AMEND" value="71" />
+	<item name="移除BUFF"   key="REMOVE_BUFF" value="72" />
+	<item name="弹夹数量修正"   key="AMMO_COUNT_AMEND" value="73" />
+	<item name="根据命中数量修改最终伤害百分比 "   key=" HIT_FIX_FINALDAMAGE " value="74" />
+	<item name="根据属性附加额外伤害 "   key=" EXTRA_DAMAGE_BY_BASEATR " value="75" />
+	<item name="当前CD修正 "   key=" EFFECT_CD_FIX " value="76" />
+	<item name="最大CD修改 "   key=" EFFECT_MAX_CD_FIX " value="77" />
+	<item name="攻击不消耗子弹 "   key=" AMEND_NO_COST " value="78" />
+	<item name="免疫次数伤害 "   key=" DAMAGE_IMM_ACC " value="79" />
+	<item name="同时触发效果 "   key=" EFFECT_MUL " value="80" />
+	<item name="回复生命值 "   key=" EFFECT_HP_RECOVRY " value="81" />
+	<item name="延迟伤害 "   key=" DAMAGE_DELAY " value="82" />
+	<item name="护盾穿透百分比"   key="IGNORE_SHIELD_P" value="83" />
+	<item name="移除护盾提升伤害"   key="REMOVE_SHIELD_UP_DMG" value="84" />
+	<item name="即死"   key="KILL_IMMEDIATELY" value="85" />
+	<item name="免疫即死"   key="IMMUNE_KILL" value="86" />
+	<item name="延长已有Buff持续时长"   key="ADD_BUFF_DURATION_EXISTING" value="87" />
+	<item name="延长新加Buff持续时长"   key="ADD_BUFF_DURATION_NEW" value="88" />
+	<item name="伤害元素类型扩展"   key="HIT_ELEMENT_TYPE_EXTEND" value="89" />
+	<item name="伤害调整"   key="DAMAGE_ADJUST" value="90" />
+	<item name="进入遮蔽表现"   key="ENTER_TRANSPARENT" value="91" />
+	<item name="调整效果起效几率"   key="CHANGE_EFFECT_RATE" value="92" />
+	<item name="角色切换冷却时长百分比修正"   key="SWITCH_CD_P" value="95" />
+	<item name="角色切换冷却时长绝对值修正"   key="SWITCH_CD_A" value="96" />
+	<item name="无法恢复能量"   key="UNABLE_RECOVER_ENERGY" value="97" />
+	<item name="禁疗"   key="CURE_IMM" value="98" />
+	<item name="免疫死亡"   key="IMMUNE_DEAD" value="99" />
+	<item name="致盲"   key="BLINDNESS" value="100" />
+	<item name="添加标签"   key="ADD_TAG" value="101" />
+	<item name="产生圆形AOE"   key="CIRCLE_AOE_DEMAGE" value="102" />
+	<item name="流星Buff"   key="METEOR_BUFF" value="103" />
+	<item name="针对不同群体的基础属性修改"   key="EFFECT_ATTRFIX_GROUPTYPE" value="104" />
+	<item name="释放区域效果"   key="PLAY_AREAEFFECT" value="105" />
+	<item name="恢复生命值至"   key="EFFECT_HP_REVERTTO" value="106" />
+	<item name="生命吸取"   key="EFFECT_HP_ABSORB" value="107" />
+	<item name="割裂"   key="LACERATION" value="108" />
+</enum>
+
+
+<enum name="itemStype">
+	<item name="资源"   key="Res" value="1" />
+	<item name="道具"   key="Item" value="2" />
+	<item name="角色"   key="Char" value="3" />
+	<item name="体力"   key="Energy" value="4" />
+	<item name="世界等级经验"   key="WorldRankExp" value="5" />
+	<item name="角色碎片"   key="CharShard" value="6" />
+	<item name="遗迹钥匙"   key="RogueKey" value="7" />
+	<item name="心相风景"   key="Outfit" value="8" />
+	<item name="天赋强化素材"   key="TalentStrengthen" value="9" />
+	<item name="遗迹天赋"   key="RoguelikeTalent" value="10" />
+	<item name="遗迹天赋升级"   key="RoguelikeTalentLevelUp" value="11" />
+	<item name="心相风景强化素材"   key="OutfitStrengthen" value="12" />
+	<item name="心相风景升阶素材"   key="OutfitPromote" value="13" />
+	<item name="信条"   key="RoguelikePerk" value="14" />
+	<item name="礼物突破素材"   key="PresentLimitBreak" value="15" />
+	<item name="礼物"   key="Present" value="16" />
+	<item name="补给箱"   key="TreasureBox" value="17" />
+	<item name="装备补给箱"   key="GearTreasureBox" value="18" />
+
+
+</enum>
+
+
+</config>
